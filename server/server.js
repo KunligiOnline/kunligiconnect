@@ -1,27 +1,34 @@
+// import express, { Request, Response, NextFunction } from 'express';
+
 const path = require('path');
 const express = require('express');
+// const { Request, Response, NextFunction } = require('express');
 
 const app = express();
 
-const PORT = 4000;
+const PORT = process.env.PORT || 4000;
 
 /**
  * handle parsing request body
  */
-app.use(bodyParser.json());
+// app.use(bodyParser.json());
 
 /**
  * handle requests for static files
  */
-app.use('/assets', express.static(path.resolve(__dirname, '../src/assets')));
+// app.use('/assets', express.static(path.resolve(__ddirname, '../src/assets')));
 
 /**
  * define route handlers
  */
-app.use('/api', apiRouter);
+// app.use('/api', apiRouter);
 
 // respond with main app
-app.get('/', (req, res) => res.status(200).sendFile(path.resolve(__dirname, '../client/index.html')));
+// app.get('/', (req, res) =>
+//   res.status(200).sendFile(path.resolve(__dirname, '../public/index.html'))
+// );
+
+app.get('/test', (req, res) => res.status(200).send('hello'));
 
 // catch-all route handler for any requests to an unknown route
 app.use((req, res) => res.sendStatus(404));
