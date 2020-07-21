@@ -1,24 +1,23 @@
 import { shallow, configure } from 'enzyme';
 import React from 'react';
-import Navbar from '../Navbar';
+import Navbar from '../navigation/Navbar';
 import { useSelector } from 'react-redux';
-import { IAppState } from '../../store/store';
-
-// import ActionContainer from '../containers/ActionContainer';
-// import { useStoreContext } from '../store';
-// import { emptySnapshots } from '../actions/actions';
-// import Action from '../components/Action';
+import { IAppState, configureStore } from '../../store/store';
 
 describe('Navbar Component', () => {
   it('renders', () => {
-    const wrapper = shallow(<Navbar/>)
-    expect(wrapper.find('h1').html()).toMatch(/Hello, Enzyme/)
+    const wrapper = shallow(<Provider <Navbar/>)
+    expect(wrapper.find('h2').html()).toMatch(/Kunligi/)
   })
 
-  it('renders snapshots, too', () => {
-    const wrapper = shallow(<div>
-      <h1>Hello, Enzyme!</h1>
-    </div>)
+  it('renders Sign In button', () => {
+  const store = configureStore();
+    const wrapper = shallow(<Provider store={store}><Navbar/> </Provider>)
+    expect(wrapper.find('NavLink').text()).toEqual('Sign In')
+  })
+
+  it('snapshot matches', () => {
+    const wrapper = shallow(<Navbar/>)
     expect(wrapper).toMatchSnapshot()
   })
 })
