@@ -1,10 +1,11 @@
 const { Pool } = require('pg');
 
-const PG_URI = 'postgres://lmtjavza:VU5N98ex58P-5eUuTJWgqczxQpkP8bLR@ruby.db.elephantsql.com:5432/lmtjavza';
+const PG_URI =
+  'postgres://xmgmqfkr:avBVrWffAkdsEl9J7SSc9Y_AJvp5SAzZ@ruby.db.elephantsql.com:5432/xmgmqfkr';
 
 // create a new pool here using the connection string above
 const pool = new Pool({
-  connectionString: 'postgres://lmtjavza:VU5N98ex58P-5eUuTJWgqczxQpkP8bLR@ruby.db.elephantsql.com:5432/lmtjavza'
+  connectionString: PG_URI,
 });
 
 // Adding some notes about the database here will be helpful for future you or other developers.
@@ -18,5 +19,5 @@ module.exports = {
   query: (text, params, callback) => {
     console.log('executed query', text);
     return pool.query(text, params, callback);
-  }
+  },
 };

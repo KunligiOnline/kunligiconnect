@@ -1,32 +1,13 @@
-// import express, { Request, Response, NextFunction } from 'express';
-
 const path = require('path');
 const express = require('express');
-// const { Request, Response, NextFunction } = require('express');
 
 const app = express();
-
 const PORT = process.env.PORT || 4000;
 
-/**
- * handle parsing request body
- */
-// app.use(bodyParser.json());
-
-/**
- * handle requests for static files
- */
-// app.use('/assets', express.static(path.resolve(__ddirname, '../src/assets')));
-
-/**
- * define route handlers
- */
-// app.use('/api', apiRouter);
-
-// respond with main app
-// app.get('/', (req, res) =>
-//   res.status(200).sendFile(path.resolve(__dirname, '../public/index.html'))
-// );
+// import controllers
+const chatController = require('./controllers/starWarsController');
+const cookieController = require('./controllers/cookieController');
+const userController = require('./controllers/userController');
 
 app.get('/test', (req, res) => res.status(200).send('hello'));
 
@@ -37,7 +18,6 @@ app.use((req, res) => res.sendStatus(404));
  * express error handler
  * @see https://expressjs.com/en/guide/error-handling.html#writing-error-handlers
  */
-// eslint-disable-next-line no-unused-vars
 app.use((err, req, res, next) => {
   const defaultErr = {
     log: 'Express error handler caught unknown middleware error',
@@ -49,9 +29,7 @@ app.use((err, req, res, next) => {
   return res.status(errorObj.status).json(errorObj.message);
 });
 
-/**
- * start server
- */
+// start server
 app.listen(PORT, () => {
   console.log(`Server listening on port: ${PORT}`);
 });
