@@ -8,9 +8,7 @@ import Navbar from '../navigation/Navbar';
  * @desc    Sends fetch requests to API to verify user
  */
 
-
-
-const Login: React.FC = () => {
+const SignUp: React.FC = () => {
 
 return (
     <div>
@@ -19,8 +17,8 @@ return (
         <div>
             <Username/>
             <Password/>
-            {/* <button onClick={() => {console.log('sign up button click')}}> Sign Up </button> */}
-            <button onClick={() => {console.log('Login button click')}}> Log In </button>
+            <button onClick={() => {console.log('sign up button click')}}> Sign Up </button>
+            {/* <button onClick={() => {console.log('SignUp button click')}}> Log In </button> */}
         </div>
     </div>
 );
@@ -28,4 +26,4 @@ return (
 
 };
 
-export default Login;
+export default SignUp;

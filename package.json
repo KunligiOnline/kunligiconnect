@@ -15,6 +15,7 @@
     "@types/react-router-dom": "^5.1.5",
     "@types/redux": "^3.6.0",
     "express": "^4.17.1",
+    "pg": "^8.3.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-redux": "^7.2.0",
@@ -23,11 +24,13 @@
     "react-scripts": "3.4.1",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
+    "socket.io": "^2.3.0",
+    "socket.io-client": "^2.3.0",
     "typescript": "^3.7.5"
   },
   "scripts": {
     "start": "react-scripts start",
-    "dev": "concurrently \"react-scripts start\" \"nodemon ./server/server.ts\"",
+    "dev": "concurrently \"react-scripts start\" \"nodemon ./server/server.js\"",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -49,7 +52,9 @@
   },
   "devDependencies": {
     "concurrently": "^5.2.0",
+    "@types/express": "^4.17.7",
     "nodemon": "^2.0.4",
+    "ts-node": "^8.10.2",
     "@types/react-router-dom": "^5.1.5"
   }
 }
