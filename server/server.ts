@@ -8,7 +8,7 @@ const PORT = 4000;
 /**
  * handle parsing request body
  */
-app.use(bodyParser.json());
+// app.use(bodyParser.json());
 
 /**
  * handle requests for static files
