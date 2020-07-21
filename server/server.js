@@ -47,27 +47,54 @@ app.use((err, req, res, next) => {
 // });
 
 let interval;
+const chatQueue = [];
 
+// once socket server is connected, set up event listeners
 io.on('connection', (socket) => {
   console.log('New client connected');
   // if there is an interval already, clear it so you don't flood the server
-  if (interval) {
-    clearInterval(interval);
-  }
-  // Set an interval that will send the date every second
-  interval = setInterval(() => getApiAndEmit(socket), 1000);
-  // clear interval on disconnect to avoid flooding the server
-  socket.on('disconnect', () => {
-    console.log('Client disconnected');
-    clearInterval(interval);
+  // if (interval) {
+  //   clearInterval(interval);
+  // }
+
+  socket.on('looking', (userId, chatType) => {
+    console.log('Adding userId ', userId, ' to queue: ', chatType);
+    const connectionRequest = {
+      socketId: socket.id,
+      userId,
+      chatType,
+    };
+    console.log(connectionRequest);
+    chatQueue.push(connectionRequest);
   });
+  // Set an interval that will send the date every second
+  // interval = setInterval(() => getApiAndEmit(socket), 1000);
+
+  // socket.on('')
+  // console.log(socket);
+
+  // socket.on('room', (room) => {
+  //   console.log('response from client!: ', room);
+  //   socket.join(room);
+  //   socket.to(room).emit('message', 'Sup yall from the server!');
+  //   // socket.to(room).emit('message', 'Sup yall from the server!');
+  //   io.in(room).emit('message', 'Sup yall from the server!');
+  // });
+  // // clear interval on disconnect to avoid flooding the server
+  // socket.on('disconnect', () => {
+  //   console.log('Client disconnected');
+  //   clearInterval(interval);
+  // });
+  // io.in('room123').emit('message', 'Sup yall from the server!');
+  // socket.to('room123').emit('message', 'Sup yall from the server!');
 });
 
-const getApiAndEmit = (socket) => {
-  const response = new Date();
-  // Emitting a new message. Will be consumed by the client
-  socket.emit('FromAPI', response);
-};
+// const getApiAndEmit = (socket) => {
+//   // const response = new Date();
+//   const response = Math.ceil(Math.random() * 100);
+//   // Emitting a new message. Will be consumed by the client
+//   socket.emit('FromAPI', response);
+// };
 
 app.use((req, res) => res.sendStatus(404));
 // start server
@@ -77,4 +104,4 @@ app.use((req, res) => res.sendStatus(404));
 
 server.listen(4000, '127.0.0.1');
 
-module.exports = app;
+module.exports = { app, chatQueue };

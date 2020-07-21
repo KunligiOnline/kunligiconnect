@@ -10,18 +10,24 @@ import socketIOClient from 'socket.io-client';
 const Chat: React.FC = () => {
   //   const [loadClient, setLoadClient] = useState(true);
   const [response, setResponse] = useState('');
+  
 
-  useEffect(() => {
-    // const socket = socketIOClient(ENDPOINT);
-    const socket = socketIOClient('http://localhost:4000', {
-      transports: ['websocket'],
-    });
-    console.log('socket done');
-    socket.on('FromAPI', (data: any) => {
-      setResponse(data);
-      console.log(data);
-    });
-  }, []);
+  // useEffect(() => {
+  //   // const socket = socketIOClient(ENDPOINT);
+  //   const socket = socketIOClient('http://localhost:4000', {
+  //     transports: ['websocket'],
+  //   });
+
+  //   socket.on('FromAPI', (data: any) => {
+  //     setResponse(data);
+  //     console.log(data);
+  //   });
+  //   socket.on('message', (data: any) => {
+  //     console.log(data);
+  //   });
+  //   const room = 'room123';
+  //   socket.emit('room', room);
+  // }, []);
 
   return (
     <div>
