@@ -29,6 +29,14 @@ export const basicReducer: Reducer<IBasicState, BasicActions> = (
           displayName: action.displayName,
         }
       }
+      case BasicActionTypes.LOGOUT: {
+        return initialBasicState;
+        // return {
+        //   ...state,
+        //   email: '',
+        //   displayName: '',
+        // }
+      }
 
       default:
         return state;

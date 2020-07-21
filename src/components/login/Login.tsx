@@ -1,17 +1,18 @@
 import React from 'react';
 import Username from './Username';
 import Password from './Password';
-import Navbar from '../navigation/Navbar';
+
 
 /**
  * @function  Verify username and password
  * @desc    Sends fetch requests to API to verify user
  */
-const Login: React.FC = () => {
 
-return (
+ // show / reroute to sign-up form
+ // show username/password text fields, 
+const Login: React.FC = () => {
+  return (
     <div>
-        <Navbar/>
         <p>Finding you a deep connection...</p>
         <div>
             <Username/>
@@ -20,9 +21,7 @@ return (
             <button onClick={() => {console.log('Login button click')}}> Log In </button>
         </div>
     </div>
-);
-
-
+  );
 };
 
 export default Login;

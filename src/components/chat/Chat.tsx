@@ -7,7 +7,6 @@ import MessageInput from '../chat/MessageInput'
 const Chat: React.FC = () => {
     return(
         <div>
-            <Navbar/>
             <div>
                 <div>
                     <p>Question here</p>
