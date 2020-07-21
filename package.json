@@ -23,13 +23,14 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
     "redux": "^4.0.5",
-    "socket.io-client": "^2.3.0",
     "redux-thunk": "^2.3.0",
+    "socket.io": "^2.3.0",
+    "socket.io-client": "^2.3.0",
     "typescript": "^3.7.5"
   },
   "scripts": {
     "start": "react-scripts start",
-    "dev": "concurrently \"react-scripts start\" \"nodemon ./server/server.ts\"",
+    "dev": "concurrently \"react-scripts start\" \"nodemon ./server/server.js\"",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
