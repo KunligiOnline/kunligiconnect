@@ -3,10 +3,9 @@ import Navbar from '../navigation/Navbar';
 import socketIOClient from 'socket.io-client';
 
 const Home: React.FC = () => {
-  const [response, setResponse] = useState('');
+  const [room, setRoom] = useState<String | null>(null);
 
-  //   const [socket, setSocket] = useState(null);
-  let socket;
+  let socket: any;
 
   const getStartedHandler = () => {
     // const socket = socketIOClient(ENDPOINT);
@@ -18,14 +17,19 @@ const Home: React.FC = () => {
     const chatType = 'Deep connection';
     socket.emit('looking', userId, chatType);
 
-    // socket.on('FromAPI', (data: any) => {
-    //   setResponse(data);
-    //   console.log(data);
-    // });
-    // socket.on('message', (data: any) => {
-    //   console.log(data);
-    // });
-    // const room = 'room123';
+    socket.on('room', (message: string) => {
+      console.log(message);
+      setRoom(message);
+    });
+  };
+
+  const sendMessageHandler = () => {
+    // only send a message if this chat is associated with a room
+    if (room) {
+      socket.emit('message', 'YOO wuddup brotha!');
+    }
+    // TODO: Save the message to state as well
+    // TODO: clear the text input
   };
 
   return (
@@ -36,6 +40,7 @@ const Home: React.FC = () => {
           <button>Deep Connection</button>
           <button>Difficult Topics</button>
         </div>
+        <button onClick={sendMessageHandler}>Send Message</button>
         <button onClick={getStartedHandler}>Get Started</button>
       </div>
     </div>
