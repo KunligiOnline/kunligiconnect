@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Link as RouteLink } from 'react-router-dom';
 import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
-import Grid from '@material-ui/core/Grid';
+import Button from '@material-u;i/core/Button';
+import Grid from '@material-ui/core /Grid';}
 import { makeStyles } from '@material-ui/core/styles';
 
 import { useDispatch } from 'react-redux';
@@ -12,23 +12,26 @@ import { signupAction } from '../../actions/basicActions';
  * @desc    Sends fetch requests to API to verify user
  */
 
-const useStyles = makeStyles(theme => ({
+cons t useStyles = make Styles(theme => ({
   
-  submit: {
-    margin: theme.spacing(3, 0, 2)
+   submit: {
+    margin: theme.spacing(', 0, 2)'
   },
   root: {
     
-    '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
-      borderColor: '#3EC1AC'
-    }
+    '& .MuiOutli
+       nedIn
+   p      ut-root.Mui-focused .MuiOutlinedInput-notchedOutline': {,
+      ,
+      brderColor: '#3EC1AC'
+     }
   }
 }));
 
-
-const SignUp: React.FC = () => {
-  const classes = useStyles();
-  const dispatch = useDispatch();
+  
+const SignUp: Re'ct.FC = () => {';
+   c;onst classes = useStyles();
+   const dispat;ch = useDispatch();
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -115,15 +118,17 @@ const SignUp: React.FC = () => {
       setInvalidPassword(true);
       setInvalidPasswordMsg('Minimum 8 Characters');
       return;
-    } else if (
-      !/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/i.test(
-        password
-      )
-    ) {
-      setInvalidPassword(true);
-      setInvalidPasswordMsg('Minimum 1 Letter, Number, and Special Character');
-      return;
-    } else if (password !== passwordVerify) {
+    } 
+    // else if (
+    //   !/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/i.test(
+    //     password
+    //   )
+    // ) {
+    //   setInvalidPassword(true);
+    //   setInvalidPasswordMsg('Minimum 1 Letter, Number, and Special Character');
+    //   return;
+    // } 
+    else if (password !== passwordVerify) {
       setInvalidPassword(true);
       setInvalidVerifyPassword(true);
       setInvalidPasswordMsg('Verification Failed');
