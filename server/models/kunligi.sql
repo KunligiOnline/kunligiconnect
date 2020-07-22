@@ -43,6 +43,7 @@ CREATE TABLE public.rooms (
 CREATE TABLE public.prompts (
 	"id" serial NOT NULL,
 	"prompt" varchar NOT NULL,
+	"prompt_type" varchar NOT NULL,
 	"created_at" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
 	CONSTRAINT "prompts_pk" PRIMARY KEY ("id")
 	
@@ -77,4 +78,6 @@ CREATE TABLE public.messages (
 -- adding in some dummy data
 insert into public.users (username,email,password) values ('Tyler','tysullberg@gmail.com','abc123');
 insert into public.users (username,email,password) values ('Doggie','ruff@ruff.com','dog123');
-insert into public.prompts (prompt) values ('When is the last time you cried?');
+insert into public.prompts (prompt,prompt_type) values ('When is the last time you cried?','Deep connection');
+insert into public.prompts (prompt,prompt_type) values ('What is your happiest childhood memory?','Deep connection');
+insert into public.prompts (prompt,prompt_type) values ('What is your greatest fear?','Deep connection');

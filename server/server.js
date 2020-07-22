@@ -3,6 +3,7 @@ const express = require('express');
 const findConnection = require('./helperFunctions/findConnection');
 const createChatRoom = require('./helperFunctions/createChatRoom');
 const storeMessage = require('./helperFunctions/storeMessage');
+const getPrompt = require('./helperFunctions/getPrompt');
 
 const app = express();
 var server = require('http').createServer(app);
@@ -70,6 +71,7 @@ io.on('connection', (socket) => {
       socketId: socket.id,
       userId,
       chatType,
+      socket,
     };
     let partner = findConnection(connectionRequest, chatQueue);
     if (partner) {
@@ -84,23 +86,17 @@ io.on('connection', (socket) => {
   // when a message is received from the database,
   // this event listener stores the event in the DB and emits the event to the other members of the room
   socket.on('message', (userId, message, promptId, hash) => {
-    console.log('sent by socket: ', socket.id);
-    console.log('received message: ', message, userId);
-    console.log(
-      'room to send to is ',
-      JSON.stringify(hash),
-      'with type of ',
-      typeof hash
-    );
-    io.sockets.in(hash).emit('new message', 'hello');
     handleMessage(socket, userId, message, promptId, hash);
   });
 
   const setUpRoom = async (partner1, partner2) => {
     const roomId = await createChatRoom(partner1.userId, partner2.userId);
     console.log('room id is ', roomId);
+    socket.join(roomId);
+    partner2.socket.join(roomId);
     io.to(partner1.socketId).emit('room', roomId);
     io.to(partner2.socketId).emit('room', roomId);
+    givePrompt(roomId, partner1.chatType);
   };
 
   const handleMessage = async (socket, userId, message, promptId, hash) => {
@@ -109,8 +105,14 @@ io.on('connection', (socket) => {
     const messageData = await storeMessage(userId, message, promptId, hash);
     // broadcast message to all users except the original sender
     console.log('about to send message to hash ', hash, messageData);
-    // socket.to(hash).emit('new message', 'hello');
+    socket.to(hash).emit('new message', 'hello');
     // io.to(hash).emit('new message', 'hello');
+  };
+
+  const givePrompt = async (hash, type) => {
+    const prompt = await getPrompt(type);
+    console.log('prompt is ', prompt);
+    io.to(hash).emit('prompt', prompt);
   };
 
   // io.in('room123').emit('message', 'Sup yall from the server!');
