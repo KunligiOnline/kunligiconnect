@@ -7,7 +7,7 @@ import * as H from 'history';
 import { AppBar, Toolbar, Typography,  Button } from '@material-ui/core';
 import cyan from '@material-ui/core/colors/cyan';
 
-const colour = cyan[200];
+const colour = '#026670';
 
 const Navbar: React.FC = () => {
 
