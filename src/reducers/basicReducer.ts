@@ -27,6 +27,7 @@ export const basicReducer: Reducer<IBasicState, BasicActions> = (
           ...state,
           email: action.email,
           username: action.username,
+          password: action.password,
         }
       }
       case BasicActionTypes.LOGOUT: {
