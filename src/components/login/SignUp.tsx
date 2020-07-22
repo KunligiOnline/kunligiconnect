@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { Link as RouteLink } from 'react-router-dom';
+import { Link as RouteLink, withRouter } from 'react-router-dom';
 import TextField from '@material-ui/core/TextField';
-import Button from '@material-u;i/core/Button';
-import Grid from '@material-ui/core /Grid';}
+import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 
 import { useDispatch } from 'react-redux';
@@ -12,26 +12,23 @@ import { signupAction } from '../../actions/basicActions';
  * @desc    Sends fetch requests to API to verify user
  */
 
-cons t useStyles = make Styles(theme => ({
+const useStyles = makeStyles(theme => ({
   
-   submit: {
-    margin: theme.spacing(', 0, 2)'
+  submit: {
+    margin: theme.spacing(3, 0, 2)
   },
   root: {
     
-    '& .MuiOutli
-       nedIn
-   p      ut-root.Mui-focused .MuiOutlinedInput-notchedOutline': {,
-      ,
-      brderColor: '#3EC1AC'
-     }
+    '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+      borderColor: '#3EC1AC'
+    }
   }
 }));
 
-  
-const SignUp: Re'ct.FC = () => {';
-   c;onst classes = useStyles();
-   const dispat;ch = useDispatch();
+
+const SignUp: React.FC = props => {
+  const classes = useStyles();
+  const dispatch = useDispatch();
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -68,7 +65,7 @@ const SignUp: Re'ct.FC = () => {';
 
   
 
-  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     console.log('Sign up info submitted!');
     e.preventDefault();
 
@@ -151,8 +148,35 @@ const SignUp: Re'ct.FC = () => {';
     }
 
     if(!invalidUsername && !invalidPassword && !invalidEmail && !invalidVerifyPassword) {
-      console.log('sign up info validated...calling dispatch');
-      dispatch(signupAction(username, email, password))
+      console.log('sign up info validated...calling fetch/dispatch');
+      
+      const body = JSON.stringify({
+        username,
+        email,
+        password,
+      });
+      fetch(`/signup`, {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body,
+      })
+      .then(res => res.json())
+      .then(data =>{
+        console.log('in signupAction, after fetch: ', data);
+        if (data.message === 'username exists') {
+          setInvalidUsername(true);
+          setInvalidUsernameMsg('Username Taken');
+        } else {
+          dispatch(signupAction(username, email, password));
+        }
+      })
+      .catch(err => console.log('err in signup submit', err));
+      
+      // console.log("answer");
+      // console.log(answer);
       // signupAction(username, email, password);
       // newUserIsCreated(username, email, password).then(userCreated => {
     //   if (userCreated === 'Success') {
@@ -170,7 +194,8 @@ const SignUp: Re'ct.FC = () => {';
     //         break;
     //     }
     //   }
-    };
+    }
+  
   }
 
   return (
@@ -275,4 +300,4 @@ const SignUp: Re'ct.FC = () => {';
   );
 };
 
-export default SignUp;
+export default withRouter(SignUp);
