@@ -74,18 +74,14 @@ io.on('connection', (socket) => {
     if (partner) {
       console.log('found a match');
       setUpRoom(connectionRequest, partner);
-      // const roomId = createChatRoom(connectionRequest.userId, partner.userId);
-      // io.to(connectionRequest.socketId).emit('room', roomId);
-      // io.to(partner.socketId).emit('room', roomId);
-      // console.log('Found match between ', connectionRequest, ' and ', partner);
-      // io.to(connectionRequest.socketId).emit(
-      //   'found partner',
-      //   'you are connection #1'
-      // );
     } else {
       console.log('no match found');
       chatQueue.push(connectionRequest);
     }
+  });
+
+  socket.on('message', (message, userId) => {
+    console.log(message, userId);
   });
 
   const setUpRoom = async (partner1, partner2) => {
@@ -94,34 +90,9 @@ io.on('connection', (socket) => {
     io.to(partner2.socketId).emit('room', roomId);
   };
 
-  // Set an interval that will send the date every second
-  // interval = setInterval(() => getApiAndEmit(socket), 1000);
-
-  // socket.on('')
-  // console.log(socket);
-
-  // socket.on('room', (room) => {
-  //   console.log('response from client!: ', room);
-  //   socket.join(room);
-  //   socket.to(room).emit('message', 'Sup yall from the server!');
-  //   // socket.to(room).emit('message', 'Sup yall from the server!');
-  //   io.in(room).emit('message', 'Sup yall from the server!');
-  // });
-  // // clear interval on disconnect to avoid flooding the server
-  // socket.on('disconnect', () => {
-  //   console.log('Client disconnected');
-  //   clearInterval(interval);
-  // });
   // io.in('room123').emit('message', 'Sup yall from the server!');
   // socket.to('room123').emit('message', 'Sup yall from the server!');
 });
-
-// const getApiAndEmit = (socket) => {
-//   // const response = new Date();
-//   const response = Math.ceil(Math.random() * 100);
-//   // Emitting a new message. Will be consumed by the client
-//   socket.emit('FromAPI', response);
-// };
 
 app.use((req, res) => res.sendStatus(404));
 // start server
