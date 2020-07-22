@@ -3,12 +3,12 @@ import { BasicActionTypes, BasicActions } from '../actions/basicActions';
 
 export interface IBasicState {
     email: string;
-    displayName: string;
+    username: string;
 }
 
 const initialBasicState: IBasicState = {
     email: '',
-    displayName: '',
+    username: '',
 };
 
 export const basicReducer: Reducer<IBasicState, BasicActions> = (
@@ -26,7 +26,8 @@ export const basicReducer: Reducer<IBasicState, BasicActions> = (
         return {
           ...state,
           email: action.email,
-          displayName: action.displayName,
+          username: action.username,
+          password: action.password,
         }
       }
       case BasicActionTypes.LOGOUT: {
@@ -34,7 +35,7 @@ export const basicReducer: Reducer<IBasicState, BasicActions> = (
         // return {
         //   ...state,
         //   email: '',
-        //   displayName: '',
+        //   username: '',
         // }
       }
 

@@ -2,7 +2,7 @@
 import { ActionCreator, Dispatch } from 'redux';
 import { ThunkAction } from 'redux-thunk';
 import { IBasicState } from '../reducers/basicReducer';
-import Cookies from 'js-cookies';
+import Cookies from 'js-cookie';
 
 export enum BasicActionTypes {
     ANY = 'ANY',
@@ -11,14 +11,15 @@ export enum BasicActionTypes {
 }
 
 export interface IBasicAnyAction {
-    type: BasicActionTypes.ANY;
-    property: any;
+  type: BasicActionTypes.ANY;
+  property: any;
 }
 
 export interface ILoginAction {
   type: BasicActionTypes.LOGIN;
   email: string;
-  displayName: string;
+  username: string;
+  password: string;
 }
 
 export interface ILogoutAction {
@@ -47,6 +48,8 @@ export const logoutAction: ActionCreator<ThunkAction<Promise<any>, IBasicState, 
       try {
           // delete cookie
           Cookies.remove('kunligi');
+          // may have to re-route?
+          console.log('logged out');
           dispatch({
           property: null,
           type: BasicActionTypes.LOGOUT
