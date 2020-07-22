@@ -65,6 +65,8 @@ CREATE TABLE public.messages (
 	"room_id" bigint NOT NULL,
 	"user_id" bigint NOT NULL,
 	"prompt_id" bigint,
+	"message" varchar NOT NULL,
+	"created_at" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
 	CONSTRAINT "messages_fk0" FOREIGN KEY ("room_id") REFERENCES  public.rooms("id"),
 	CONSTRAINT "messages_fk1" FOREIGN KEY ("user_id") REFERENCES  public.users("id"),
 	CONSTRAINT "messages_fk2" FOREIGN KEY ("prompt_id") REFERENCES  public.prompts("id")
