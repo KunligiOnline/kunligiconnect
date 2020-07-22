@@ -84,12 +84,21 @@ io.on('connection', (socket) => {
   // when a message is received from the database,
   // this event listener stores the event in the DB and emits the event to the other members of the room
   socket.on('message', (userId, message, promptId, hash) => {
+    console.log('sent by socket: ', socket.id);
     console.log('received message: ', message, userId);
+    console.log(
+      'room to send to is ',
+      JSON.stringify(hash),
+      'with type of ',
+      typeof hash
+    );
+    io.sockets.in(hash).emit('new message', 'hello');
     handleMessage(socket, userId, message, promptId, hash);
   });
 
   const setUpRoom = async (partner1, partner2) => {
     const roomId = await createChatRoom(partner1.userId, partner2.userId);
+    console.log('room id is ', roomId);
     io.to(partner1.socketId).emit('room', roomId);
     io.to(partner2.socketId).emit('room', roomId);
   };
@@ -99,7 +108,9 @@ io.on('connection', (socket) => {
     // it returns back additional meta data for the message that will be broadcast to the other users
     const messageData = await storeMessage(userId, message, promptId, hash);
     // broadcast message to all users except the original sender
-    socket.to(hash).emit('message', messageData);
+    console.log('about to send message to hash ', hash, messageData);
+    // socket.to(hash).emit('new message', 'hello');
+    // io.to(hash).emit('new message', 'hello');
   };
 
   // io.in('room123').emit('message', 'Sup yall from the server!');
