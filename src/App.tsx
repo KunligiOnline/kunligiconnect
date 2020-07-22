@@ -18,7 +18,7 @@ function App() {
     <Router>
     <div>
       <Navbar/>
-        <div>
+        <div className='container'>
           <Switch>
             <Route exact path="/">
               <Redirect from="/" to="/home" />

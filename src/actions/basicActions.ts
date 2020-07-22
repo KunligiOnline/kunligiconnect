@@ -61,14 +61,16 @@ export const logoutAction: ActionCreator<ThunkAction<
   ILogoutAction
 >> = () => {
   return async (dispatch: Dispatch) => {
-    try {
-      // delete cookie
-      Cookies.remove('kunligi');
-      dispatch({
-        property: null,
-        type: BasicActionTypes.LOGOUT,
-      });
-    } catch (err) {
+      try {
+          // delete cookie
+          Cookies.remove('kunligi');
+          // may have to re-route?
+          console.log('logged out');
+          dispatch({
+          property: null,
+          type: BasicActionTypes.LOGOUT
+          })
+      } catch (err) {
       console.error(err);
     }
   };

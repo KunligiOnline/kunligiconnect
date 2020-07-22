@@ -31,6 +31,7 @@ export const basicReducer: Reducer<IBasicState, BasicActions> = (
           ...state,
           id: action.id,
           username: action.username,
+          password: action.password,
         }
         
       }
