@@ -3,7 +3,7 @@ import { ThunkAction } from 'redux-thunk';
 import { IBasicState } from '../reducers/basicReducer';
 import Cookies from 'js-cookie';
 
-const serverUrl = 'http://localhost:4000';
+const serverUrl = '';
 
 export enum BasicActionTypes {
   ANY = 'ANY',
@@ -100,6 +100,7 @@ export const signupAction: ActionCreator<ThunkAction<
           credentials: 'include',
           headers: {
             'Content-Type': 'application/json',
+            'Accept': 'application/json',
           },
           body,
         })
