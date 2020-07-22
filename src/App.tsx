@@ -3,11 +3,12 @@ import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-d
 import { useSelector } from 'react-redux';
 import { IAppState } from './store/store';
 import './App.css';
-import Login from './components/login/Login';
+import LogIn from './components/login/Login';
 import Chat from './components/chat/Chat';
 import Loading from './components/loading/Loading';
 import Home from './components/home/Home';
 import Navbar from './components/navigation/Navbar';
+import SignUp from './components/login/SignUp';
 
 function App() {
   return (
@@ -21,7 +22,8 @@ function App() {
             <PrivateRoute path="/home">
               <Home/>
             </PrivateRoute>
-            <Route path="/" component={Login}/>
+            <Route path="/signup" component={SignUp} />
+            <Route path="/" component={LogIn}/>
           </Switch>
         </div>
     </div>
@@ -31,12 +33,12 @@ function App() {
 
 // Route wrapper that redirects to '/login' if user is not logged in
 function PrivateRoute( { children, ...rest }: any ) {
-  const displayName = useSelector((state: IAppState) => state.basicState.displayName);
+  const username = useSelector((state: IAppState) => state.basicState.username);
   return (
     <Route
       {...rest}
       render={({ location }) => 
-        displayName !== '' ? (
+        username !== '' ? (
           children
         ) : (
           <Redirect to={{

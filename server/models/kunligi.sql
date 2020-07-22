@@ -20,7 +20,7 @@ CREATE TABLE public.users (
 	"username" varchar NOT NULL,
 	"email" varchar NOT NULL,
 	"password" varchar NOT NULL,
-    "created_at" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+  "created_at" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
 	CONSTRAINT "users_pk" PRIMARY KEY ("id")
 ) WITH (
   OIDS=FALSE
