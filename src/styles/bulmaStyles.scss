@@ -1,0 +1,7 @@
+@charset "utf-8";
+
+$primary: #80DEEA;
+$info: darken($primary, 40);
+
+@import "../../node_modules/bulma/bulma.sass";
+

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from '../navigation/Navbar';
 import socketIOClient from 'socket.io-client';
-import cookieController from '../../../server/controllers/cookieController';
+import { Link } from 'react-router-dom';
 
 const Home: React.FC = () => {
   const [room, setRoom] = useState<String | null>(null);
@@ -71,12 +71,16 @@ const Home: React.FC = () => {
 
   return (
     <div>
-      <Navbar />
       <div>
         {prompt ? <p>{prompt.prompt}</p> : ``}
         <div>
-          <button>Deep Connection</button>
-          <button>Difficult Topics</button>
+          <div>
+            <div>
+              <Link to="/loading">Deep Connection</Link>
+              <button>Difficult Topics</button>
+            </div>
+            <button>Getting Started</button>
+          </div>
         </div>
         <button onClick={sendMessageHandler}>Send Message</button>
         <button onClick={changePromptHandler}>Change Prompt</button>
