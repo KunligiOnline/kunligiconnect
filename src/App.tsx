@@ -15,13 +15,13 @@ function App() {
     <Router>
     <div>
       <Navbar/>
-        <div>
+        <div className='container'>
           <Switch>
             <Route path="/chat" component={Chat}/>
             <Route path="/loading" component={Loading}/>
-            <PrivateRoute path="/home">
+            <Route path="/home">
               <Home/>
-            </PrivateRoute>
+            </Route>
             <Route path="/signup" component={SignUp} />
             <Route path="/" component={LogIn}/>
           </Switch>

@@ -1,11 +1,11 @@
 import React from 'react';
 
-const Messages: React.FC = () => {
-    return(
-        <div>
-            <p>Message Box Here</p>
-        </div>
-    )
+const Question: React.FC = () => {
+  return(
+    <div>
+      <p>Question: </p>
+    </div>
+  );
 }
 
-export default Messages;
+export default Question;

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import Navbar from '../navigation/Navbar'
 
 const Home: React.FC = () => {
@@ -7,7 +8,7 @@ const Home: React.FC = () => {
             <Navbar/>
             <div>
             <div>
-                <button>Deep Connection</button>
+                <Link to="/loading">Deep Connection</Link>
                 <button>Difficult Topics</button>
             </div>
             <button>Getting Started</button>
