@@ -65,6 +65,10 @@ const Home: React.FC = () => {
     // TODO: clear the text input
   };
 
+  const changePromptHandler = () => {
+    socket.emit('get new prompt', room, chatType);
+  };
+
   return (
     <div>
       <Navbar />
@@ -75,7 +79,7 @@ const Home: React.FC = () => {
           <button>Difficult Topics</button>
         </div>
         <button onClick={sendMessageHandler}>Send Message</button>
-        <button>Get Started</button>
+        <button onClick={changePromptHandler}>Change Prompt</button>
       </div>
       {messages.map((message: any) => (
         <p>{message.message}</p>

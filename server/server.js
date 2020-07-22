@@ -89,6 +89,10 @@ io.on('connection', (socket) => {
     handleMessage(socket, userId, message, promptId, hash);
   });
 
+  socket.on('get new prompt', (hash, chatType) => {
+    givePrompt(hash, chatType);
+  });
+
   const setUpRoom = async (partner1, partner2) => {
     const roomId = await createChatRoom(partner1.userId, partner2.userId);
     console.log('room id is ', roomId);
