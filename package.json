@@ -24,6 +24,8 @@
   "private": true,
   "proxy": "http://localhost.com:4000",
   "dependencies": {
+    "@material-ui/core": "^4.11.0",
+    "@material-ui/styles": "^4.10.0",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
@@ -36,6 +38,8 @@
     "@types/react-router-dom": "^5.1.5",
     "@types/redux": "^3.6.0",
     "concurrently": "^5.2.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
     "js-cookie": "^2.2.1",
     "pg": "^8.3.0",
     "react": "^16.13.1",
@@ -74,6 +78,7 @@
   },
   "devDependencies": {
     "@types/express": "^4.17.7",
+    "concurrently": "^5.2.0",
     "@types/jest": "^24.9.1",
     "@types/js-cookie": "^2.2.6",
     "@types/react-router-dom": "^5.1.5",

@@ -24,6 +24,11 @@
   color: white;
 }
 
+.navbar {
+  text-align: center;
+  padding: 20px;
+}
+
 .App-link {
   color: #61dafb;
 }
@@ -35,4 +40,18 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.signup-form {
+  width: 320px;
+  font-size: 16px;
+  margin: 0 auto;
+}
+
+.auth-button {
+  margin-top: 25px;
+}
+
+.nav-link {
+  font-size: 12px;
 }

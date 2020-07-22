@@ -2,12 +2,13 @@ import React from 'react';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { IAppState } from './store/store';
-//import './AppStyle.css';
-import Login from './components/login/Login';
+import './App.css';
+import LogIn from './components/login/Login';
 import Chat from './components/chat/Chat';
 import Loading from './components/loading/Loading';
 import Home from './components/home/Home';
 import Navbar from './components/navigation/Navbar';
+import SignUp from './components/login/SignUp';
 
 function App() {
   return (
@@ -21,7 +22,8 @@ function App() {
             <PrivateRoute path="/home">
               <Home/>
             </PrivateRoute>
-            <Route path="/" component={Login}/>
+            <Route path="/signup" component={SignUp} />
+            <Route path="/" component={LogIn}/>
           </Switch>
         </div>
     </div>
