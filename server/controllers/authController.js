@@ -9,10 +9,13 @@ authController.checkUserExists = (req, res, next) => {
   db.query(queryText, [username])
     .then((data) => {
       if (!data.rows[0]) {
+        console.log('username not yet taken in database');
+        res.locals.message = "username not found";
         return next();
       } else {
         // conflict status
-        return res.status(409).json('username exists');
+        res.locals.message = "username exists";
+        return res.status(409).json(res.locals);
       }
     })
     .catch((err) => {
@@ -26,8 +29,34 @@ authController.checkUserExists = (req, res, next) => {
     });
 };
 
+authController.checkUserNotFound = (req, res, next) => {
+  const { username } = req.body;
+  const queryText = 'SELECT username FROM public.users WHERE username = $1';
+  db.query(queryText, [username])
+    .then((data) => {
+      if (!data.rows[0]) {
+        console.log('username not yet taken in database');
+        res.locals.message = "username not found";
+        return res.status(409).json(res.locals);
+      } else {
+        // conflict status
+        res.locals.message = "username exists";
+        return next();
+      }
+    })
+    .catch((err) => {
+      return next({
+        log: `ERROR in authController.checkUserNotFound:${err}`,
+        message: {
+          err:
+            'authController.checkUserNotFound: ERROR: Check server log for details.',
+        },
+      });
+    });
+};
+
+
 authController.signUp = (req, res, next) => {
-  console.log('IN SIGN UP');
   const { username, email, password } = req.body;
   const queryText = `
   INSERT INTO public.users(username, email, password)
@@ -38,6 +67,7 @@ authController.signUp = (req, res, next) => {
     .then((data) => {
       console.log('just added ', data.rows[0]);
       res.locals.newUser = data.rows[0];
+      res.locals.message = "success";
       return next();
     })
     .catch((err) => {
@@ -51,17 +81,23 @@ authController.signUp = (req, res, next) => {
 };
 
 authController.logIn = (req, res, next) => {
+  
   const { username, password } = req.body;
-  const queryText = 'SELECT password FROM public.users WHERE username = $1';
+  const queryText = 'SELECT id, password FROM public.users WHERE username = $1';
   db.query(queryText, [username])
     .then((data) => {
+      console.log('inside authcontroller login, data: ');
+      console.log(data);
       if (data.rows[0].password === password) {
         console.log('username/password validated');
+        const id = data.rows[0].id;
+        res.locals.currentUser = { username, id };
         return next();
       } else {
-        console.log('username/password is invalid');
+        console.log('password is invalid');
         // unauthorized status
-        return res.status(401).json('incorrect username/password');
+        res.locals.message = "invalid password";
+        return next();
       }
     })
     .catch((err) =>
