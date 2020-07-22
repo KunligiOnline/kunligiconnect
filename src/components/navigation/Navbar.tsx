@@ -1,5 +1,5 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { IAppState } from '../../store/store';
 import { logoutAction } from '../../actions/basicActions';
 import { NavLink } from 'react-router-dom';
@@ -10,6 +10,18 @@ import cyan from '@material-ui/core/colors/cyan';
 const colour = cyan[200];
 
 const Navbar: React.FC = () => {
+
+  const dispatch = useDispatch();
+
+  function login(location: H.LocationDescriptor): H.LocationDescriptor {
+    return '/login';
+  }
+  
+  function logout(location: H.LocationDescriptor): H.LocationDescriptor {
+    dispatch(logoutAction());
+    return '/';
+  }
+
   const username = useSelector((state: IAppState) => state.basicState.username);
   if (username === '') {
     return (
@@ -33,11 +45,6 @@ const Navbar: React.FC = () => {
         <button className="logout-button"><NavLink id="link" to={logout}>Logout</NavLink></button>
     </span>
   );
-}
-
-function logout(location: H.LocationDescriptor): H.LocationDescriptor {
-
-  return '/';
 }
 
 

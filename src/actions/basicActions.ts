@@ -3,7 +3,7 @@ import { ThunkAction } from 'redux-thunk';
 import { IBasicState } from '../reducers/basicReducer';
 import Cookies from 'js-cookie';
 
-const serverUrl = 'http://localhost:4000';
+const serverUrl = '';
 
 export enum BasicActionTypes {
   ANY = 'ANY',
@@ -64,14 +64,16 @@ export const logoutAction: ActionCreator<ThunkAction<
   ILogoutAction
 >> = () => {
   return async (dispatch: Dispatch) => {
-    try {
-      // delete cookie
-      Cookies.remove('kunligi');
-      dispatch({
-        property: null,
-        type: BasicActionTypes.LOGOUT,
-      });
-    } catch (err) {
+      try {
+          // delete cookie
+          Cookies.remove('kunligi');
+          // may have to re-route?
+          console.log('logged out');
+          dispatch({
+          property: null,
+          type: BasicActionTypes.LOGOUT
+          })
+      } catch (err) {
       console.error(err);
     }
   };
@@ -98,6 +100,7 @@ export const signupAction: ActionCreator<ThunkAction<
           credentials: 'include',
           headers: {
             'Content-Type': 'application/json',
+            'Accept': 'application/json',
           },
           body,
         })
