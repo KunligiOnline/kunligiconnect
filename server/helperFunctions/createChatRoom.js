@@ -2,7 +2,7 @@ const db = require('./../models/model');
 const crypto = require('crypto');
 
 const createChatRoom = async (userId1, userId2) => {
-  console.log('in the create chat room func');
+
   // generate random string that we can use to define the web id so we're not publicly exposing room primary keys
   const hash = crypto.randomBytes(20).toString('hex');
   const values = [hash, userId1, userId2];
@@ -27,7 +27,7 @@ const createChatRoom = async (userId1, userId2) => {
   await db.query(query, values);
   //   return back the hash of the room
   //   this hash will be the id of the room
-  console.log('the hash is ', hash);
+
   return hash;
 };
 

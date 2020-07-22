@@ -1,13 +1,7 @@
 const db = require('./../models/model');
 
 const storeMessage = async (userId, message, promptId, hash) => {
-  console.log(
-    'in the store message function',
-    typeof userId,
-    message,
-    typeof promptId,
-    hash
-  );
+
   const valuesAddMessage = [hash, userId, promptId, message];
   //   query finds room associated with a hash
   //   then the query associates a message to that user_id and room_it
@@ -25,7 +19,7 @@ const storeMessage = async (userId, message, promptId, hash) => {
 
   let result1 = await db.query(queryAddMessage, valuesAddMessage);
   let messageId = result1.rows[0].id;
-  console.log('the message id is ', messageId);
+
   //  get additional metadata about the message that we can broadcast to other users
   const valuesGetMessage = [messageId];
   const queryGetMessage = `

@@ -14,6 +14,7 @@ const Home: React.FC = () => {
   const userId = 1;
   const promptId = 1;
   const chatType = 'Deep connection';
+  const message = 'YOO wuddup brotha!';
 
   //  Set up the websocket connection to the server
   //  save that connection to state
@@ -41,10 +42,10 @@ const Home: React.FC = () => {
         setRoom(message);
       });
 
-      socket.on('new message', (message: string) => {
-        console.log('received message ', message);
+      socket.on('new message', (messageData: any) => {
+        console.log('received message ', messageData);
         const newMessages = [...messages];
-        newMessages.push(message);
+        newMessages.push(messageData);
         setMessages(newMessages);
       });
 
@@ -58,7 +59,7 @@ const Home: React.FC = () => {
   const sendMessageHandler = () => {
     if (room) {
       console.log('sending message ');
-      socket.emit('message', userId, 'YOO wuddup brotha!', promptId, room);
+      socket.emit('message', userId, message, promptId, room);
     }
     // TODO: Save the message to state as well
     // TODO: clear the text input
@@ -76,8 +77,8 @@ const Home: React.FC = () => {
         <button onClick={sendMessageHandler}>Send Message</button>
         <button>Get Started</button>
       </div>
-      {messages.map((message: string) => (
-        <p>{message}</p>
+      {messages.map((message: any) => (
+        <p>{message.message}</p>
       ))}
     </div>
   );

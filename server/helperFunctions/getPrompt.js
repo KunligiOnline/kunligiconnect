@@ -11,8 +11,6 @@ const getPrompt = async (type) => {
     `;
 
   const result = await db.query(query, values);
-  console.log('type is ', type);
-  console.log('prompt result is ', result);
 
   return result.rows[0];
 };

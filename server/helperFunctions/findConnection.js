@@ -6,7 +6,6 @@ const findConnection = (connectionReq, chatQueue) => {
     const conn = chatQueue[i];
     if (conn.type === connectionReq.type) {
       chatQueue.splice(i, 1);
-      console.log('chat queue is now: ', chatQueue);
       return conn;
     }
   }

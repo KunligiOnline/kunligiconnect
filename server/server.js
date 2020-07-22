@@ -104,14 +104,11 @@ io.on('connection', (socket) => {
     // it returns back additional meta data for the message that will be broadcast to the other users
     const messageData = await storeMessage(userId, message, promptId, hash);
     // broadcast message to all users except the original sender
-    console.log('about to send message to hash ', hash, messageData);
-    socket.to(hash).emit('new message', 'hello');
-    // io.to(hash).emit('new message', 'hello');
+    socket.to(hash).emit('new message', messageData);
   };
 
   const givePrompt = async (hash, type) => {
     const prompt = await getPrompt(type);
-    console.log('prompt is ', prompt);
     io.to(hash).emit('prompt', prompt);
   };
 
