@@ -15,7 +15,7 @@ function App() {
     <Router>
     <div>
       <Navbar/>
-        <div>
+        <div className='container'>
           <Switch>
             <Route path="/chat" component={Chat}/>
             <Route path="/loading" component={Loading}/>
