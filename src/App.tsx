@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route, Redirect, useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { IAppState } from './store/store';
 import './App.css';
@@ -11,19 +11,27 @@ import Navbar from './components/navigation/Navbar';
 import SignUp from './components/login/SignUp';
 
 function App() {
+  let history = useHistory();
+  const username = useSelector((state: IAppState) => state.basicState.username);
+  console.log('in App, username: ', username);
   return (
     <Router>
     <div>
       <Navbar/>
         <div className='container'>
           <Switch>
+            <Route exact path="/">
+              <Redirect from="/" to="/home" />
+            </Route>
             <Route path="/chat" component={Chat}/>
             <Route path="/loading" component={Loading}/>
-            <Route path="/home">
+            <PrivateRoute username={username} path="/home">
               <Home/>
-            </Route>
-            <Route path="/signup" component={SignUp} />
-            <Route path="/" component={LogIn}/>
+            </PrivateRoute>
+            <LoggedOffRoute username={username}>
+              <Route path="/signup" component={SignUp} />
+              <Route path="/login" component={LogIn}/>
+            </LoggedOffRoute>
           </Switch>
         </div>
     </div>
@@ -31,9 +39,13 @@ function App() {
   );
 }
 
+
+
 // Route wrapper that redirects to '/login' if user is not logged in
 function PrivateRoute( { children, ...rest }: any ) {
-  const username = useSelector((state: IAppState) => state.basicState.username);
+  console.log('in private route');
+  // const username = useSelector((state: IAppState) => state.basicState.username);
+  let { username } = rest;
   return (
     <Route
       {...rest}
@@ -51,5 +63,30 @@ function PrivateRoute( { children, ...rest }: any ) {
     />
   );
 }
+
+
+// Route wrapper that redirects to '/login' if user is not logged in
+function LoggedOffRoute( { children, ...rest }: any ) {
+  // const username = useSelector((state: IAppState) => state.basicState.username);
+  let { username } = rest;
+  return (
+    <Route
+      {...rest}
+      render={({ location }) => 
+        username !== '' ? (
+          <Redirect to={{
+            pathname: '/home',
+            state: { from: location }
+          }}
+          />
+        ) : (
+          children
+        )
+      }
+    />
+  );
+}
+
+
 
 export default App;

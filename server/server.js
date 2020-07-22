@@ -7,12 +7,12 @@ var io = require('socket.io')(server);
 const cors = require('cors');
 
 // const session = require('express-session');
-// const cookieParser = require('cookie-parser');
+const cookieParser = require('cookie-parser');
 
 const PORT = process.env.PORT || 4000;
 
 app.use(cors());
-// app.use(cookieParser())
+app.use(cookieParser());
 app.use(express.json());
 
 // import routes
@@ -21,7 +21,7 @@ const userRouter = require('./routes/users');
 
 // import controllers
 const chatController = require('./controllers/chatController');
-// const cookieController = require('./controllers/cookieController');
+const cookieController = require('./controllers/cookieController');
 const userController = require('./controllers/userController');
 const authController = require('./controllers/authController');
 
@@ -31,16 +31,25 @@ app.use('/user', userRouter);
 
 // app.use('/auth', authRouter);
 
-app.post('/login', 
-  authController.logIn, 
+app.post('/login',
+  authController.checkUserNotFound,
+  authController.logIn,
+  cookieController.setCookie,
   (req, res) => {
-  res.status(200).send('login');
+  res.status(200).json(res.locals);
 });
 
 app.post('/signup', 
-  authController.signUp, 
+  authController.checkUserExists,
+  authController.signUp,
   (req, res) => {
-  res.status(200).json(res.locals.newUser);
+  res.status(200).json(res.locals);
+});
+
+app.get('/logout',
+  cookieController.clearCookie,
+  (req, res) => {
+  res.status(200).json('successful logout');
 });
 
 // catch-all route handler for any requests to an unknown route
@@ -70,3 +79,6 @@ app.listen(PORT, () => {
 });
 
 module.exports = app;
+
+
+

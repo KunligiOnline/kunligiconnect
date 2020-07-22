@@ -11,16 +11,16 @@ const colour = cyan[200];
 
 const Navbar: React.FC = () => {
 
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
-  function login(location: H.LocationDescriptor): H.LocationDescriptor {
-    return '/login';
-  }
+  // function login(location: H.LocationDescriptor): H.LocationDescriptor {
+  //   return '/login';
+  // }
   
-  function logout(location: H.LocationDescriptor): H.LocationDescriptor {
-    dispatch(logoutAction());
-    return '/';
-  }
+  // function logout(location: H.LocationDescriptor): H.LocationDescriptor {
+  //   dispatch(logoutAction());
+  //   return '/';
+  // }
 
   const username = useSelector((state: IAppState) => state.basicState.username);
   if (username === '') {
@@ -42,7 +42,7 @@ const Navbar: React.FC = () => {
   return (
     <span className="navbar">
         <h2 id="Header">Kunligi</h2>
-        <button className="logout-button"><NavLink id="link" to={logout}>Logout</NavLink></button>
+        <button className="logout-button"><NavLink id="link" to="/" >Logout</NavLink></button>
     </span>
   );
 }

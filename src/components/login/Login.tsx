@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
-import { Link as RouteLink } from 'react-router-dom';
+import { Link as RouteLink, Redirect, withRouter, useHistory, RouteComponentProps } from 'react-router-dom';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 
+import { useDispatch } from 'react-redux';
+import { loginAction } from '../../actions/basicActions';
 
 /**
  * @function  Verify username and password
@@ -24,8 +26,9 @@ const useStyles = makeStyles(theme => ({
 }));
  // show / reroute to sign-up form
  // show username/password text fields, 
-const LogIn: React.FC = () => {
+const LogIn: React.FC<RouteComponentProps> = props => {
   const classes = useStyles();
+  const dispatch = useDispatch();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
@@ -52,6 +55,42 @@ const LogIn: React.FC = () => {
     setInvalidUserMsg('');
     setInvalidPass(false);
     setInvalidPassMsg('');
+    //dispatch(loginAction(username, password));
+    //props.history.push('/home');
+
+    const body = JSON.stringify({
+        username,
+        password
+    });
+
+    fetch(`/login`,{
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body,
+    }).then(res => {
+        return res.json();
+    }).then(data => {
+        console.log('in login submit, data:');
+        console.log(data);
+        if (data.message !== 'username exists') {
+            if (data.message === 'username not found') {
+                setInvalidUser(true);
+                setInvalidUserMsg(data.message);
+            }
+            if (data.message === 'invalid password') {
+                setInvalidPass(true);      
+                setInvalidPassMsg(data.message);
+            }
+        } else {
+            const id = data.currentUser.id;
+            dispatch(loginAction(username, id));
+        } 
+    }).catch(err => {
+        console.log('login submit error!');
+    })
     // sessionIsCreated(username, password).then(loginStatus => {
     //   if (loginStatus === 'Success') {
     //     props.history.push('/');
@@ -139,4 +178,4 @@ const LogIn: React.FC = () => {
   );
 }
 
-export default LogIn;
+export default withRouter(LogIn);
