@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link as RouteLink } from 'react-router-dom';
+import { Link as RouteLink, withRouter } from 'react-router-dom';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
@@ -26,7 +26,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-const SignUp: React.FC = () => {
+const SignUp: React.FC = props => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -65,7 +65,7 @@ const SignUp: React.FC = () => {
 
   
 
-  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     console.log('Sign up info submitted!');
     e.preventDefault();
 
@@ -115,15 +115,17 @@ const SignUp: React.FC = () => {
       setInvalidPassword(true);
       setInvalidPasswordMsg('Minimum 8 Characters');
       return;
-    } else if (
-      !/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/i.test(
-        password
-      )
-    ) {
-      setInvalidPassword(true);
-      setInvalidPasswordMsg('Minimum 1 Letter, Number, and Special Character');
-      return;
-    } else if (password !== passwordVerify) {
+    } 
+    // else if (
+    //   !/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/i.test(
+    //     password
+    //   )
+    // ) {
+    //   setInvalidPassword(true);
+    //   setInvalidPasswordMsg('Minimum 1 Letter, Number, and Special Character');
+    //   return;
+    // } 
+    else if (password !== passwordVerify) {
       setInvalidPassword(true);
       setInvalidVerifyPassword(true);
       setInvalidPasswordMsg('Verification Failed');
@@ -146,8 +148,35 @@ const SignUp: React.FC = () => {
     }
 
     if(!invalidUsername && !invalidPassword && !invalidEmail && !invalidVerifyPassword) {
-      console.log('sign up info validated...calling dispatch');
-      dispatch(signupAction(username, email, password))
+      console.log('sign up info validated...calling fetch/dispatch');
+      
+      const body = JSON.stringify({
+        username,
+        email,
+        password,
+      });
+      fetch(`/signup`, {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body,
+      })
+      .then(res => res.json())
+      .then(data =>{
+        console.log('in signupAction, after fetch: ', data);
+        if (data.message === 'username exists') {
+          setInvalidUsername(true);
+          setInvalidUsernameMsg('Username Taken');
+        } else {
+          dispatch(signupAction(username, email, password));
+        }
+      })
+      .catch(err => console.log('err in signup submit', err));
+      
+      // console.log("answer");
+      // console.log(answer);
       // signupAction(username, email, password);
       // newUserIsCreated(username, email, password).then(userCreated => {
     //   if (userCreated === 'Success') {
@@ -165,7 +194,8 @@ const SignUp: React.FC = () => {
     //         break;
     //     }
     //   }
-    };
+    }
+  
   }
 
   return (
@@ -270,4 +300,4 @@ const SignUp: React.FC = () => {
   );
 };
 
-export default SignUp;
+export default withRouter(SignUp);

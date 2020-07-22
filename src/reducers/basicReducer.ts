@@ -4,11 +4,13 @@ import { BasicActionTypes, BasicActions } from '../actions/basicActions';
 export interface IBasicState {
     email: string;
     username: string;
+    id: number;
 }
 
 const initialBasicState: IBasicState = {
     email: '',
     username: '',
+    id: -Infinity,
 };
 
 export const basicReducer: Reducer<IBasicState, BasicActions> = (
@@ -17,18 +19,21 @@ export const basicReducer: Reducer<IBasicState, BasicActions> = (
   ) => {
     switch (action.type) {
       case BasicActionTypes.ANY: {
+        // logic here 
         return {
           ...state,
           property: action.property
         };
       }
       case BasicActionTypes.LOGIN: {
+        console.log('in reducer, login! action: ', action);
         return {
           ...state,
-          email: action.email,
+          id: action.id,
           username: action.username,
           password: action.password,
         }
+        
       }
       case BasicActionTypes.LOGOUT: {
         return initialBasicState;
@@ -38,7 +43,14 @@ export const basicReducer: Reducer<IBasicState, BasicActions> = (
         //   username: '',
         // }
       }
-
+      case BasicActionTypes.SIGNUP: {
+        console.log('in signup reducer, action is: ', action);
+        return {
+          ...state,
+          username: action.username,
+          email: action.email
+        }
+      }
       default:
         return state;
     }

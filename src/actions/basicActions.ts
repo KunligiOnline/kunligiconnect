@@ -3,7 +3,6 @@ import { ThunkAction } from 'redux-thunk';
 import { IBasicState } from '../reducers/basicReducer';
 import Cookies from 'js-cookie';
 
-const serverUrl = '';
 
 export enum BasicActionTypes {
   ANY = 'ANY',
@@ -19,23 +18,21 @@ export interface IBasicAnyAction {
 
 export interface ILoginAction {
   type: BasicActionTypes.LOGIN;
-  email: string;
   username: string;
-  password: string;
+  id: number,
 }
 
 export interface ISignupAction {
   type: BasicActionTypes.SIGNUP;
   email: string;
   username: string;
-  password: string;
 }
 
 export interface ILogoutAction {
   type: BasicActionTypes.LOGOUT;
 }
 
-export type BasicActions = IBasicAnyAction | ILoginAction | ILogoutAction;
+export type BasicActions = IBasicAnyAction | ILoginAction | ILogoutAction | ISignupAction;
 
 /*<Promise<Return Type>, State Interface, Type of Param, Type of Action> */
 export const basicAction: ActionCreator<ThunkAction<
@@ -79,6 +76,26 @@ export const logoutAction: ActionCreator<ThunkAction<
   };
 };
 
+export const loginAction: ActionCreator<ThunkAction<
+  Promise<any>,
+  IBasicState,
+  null,
+  ILoginAction
+>> = (username: string, id: number) => {
+  return async (dispatch: Dispatch) => {
+    try {
+      
+      dispatch({
+        username,
+        id,
+        type: BasicActionTypes.LOGIN,
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  };
+};
+
 export const signupAction: ActionCreator<ThunkAction<
   Promise<any>,
   IBasicState,
@@ -88,28 +105,13 @@ export const signupAction: ActionCreator<ThunkAction<
   return async (dispatch: Dispatch) => {
     console.log('in signupAction, before fetch');
     try {
-
-      const body = JSON.stringify({
-        username,
-        email,
-        password,
-      });
-      const result = await (
-        await fetch(`${serverUrl}/signup`, {
-          method: 'POST',
-          credentials: 'include',
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-          },
-          body,
-        })
-      ).json();
-      console.log('in signupAction, after fetch: ', result);
-    //   dispatch({
-    //     property: null,
-    //     type: BasicActionTypes.SIGNUP,
-    //   });
+      
+      dispatch({
+            username,
+            email,
+            type: BasicActionTypes.SIGNUP,
+        });
+    
     } catch (err) {
       console.error(err);
     }

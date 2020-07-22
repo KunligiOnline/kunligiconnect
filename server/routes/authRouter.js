@@ -4,20 +4,20 @@ const authController = require('../controllers/authController');
 const cookieController = require('../controllers/cookieController')
 const router = express.Router();
 
-router.post('/login', 
-  authController.logIn, 
-  // cookieController.setCookie
+router.post('/login',
+  authController.logIn,
+  cookieController.setCookie,
   (req, res) => {
   res.status(200).send('login');
 });
 
-router.post('/signup', 
-  authController.signUp, 
+router.post('/signup',
+  authController.signUp,
   (req, res) => {
   res.status(200).json(res.locals.newUser);
 });
 
-router.get('/logout', 
+router.get('/logout',
   cookieController.clearCookie,
   (req, res) => {
   res.status(200).redirect('/login');
