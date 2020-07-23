@@ -71,6 +71,15 @@ export const basicReducer: Reducer<IBasicState, BasicActions> = (
     case BasicActionTypes.CHANGEPROMPT: {
       return { ...state, prompt: action.prompt };
     }
+    
+    case BasicActionTypes.GETCOOKIE: {
+      console.log('in getcookie reducer, action is: ', action);
+      return {
+        ...state,
+        username: action.username,
+        userId: action.userId
+      }
+    }
 
     default:
       return state;
