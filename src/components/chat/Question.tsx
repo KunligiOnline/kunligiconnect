@@ -5,7 +5,6 @@ import { Prompt } from '../../actions/basicActions';
 
 const Question: React.FC = () => {
   const prompt = useSelector((state: IAppState) => state.basicState.prompt);
-  console.log('the prompt is ', prompt);
   return (
     <div>
       <p>{prompt ? prompt.prompt : 'Choosing a prompt...'}</p>

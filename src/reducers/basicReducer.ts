@@ -32,7 +32,6 @@ export const basicReducer: Reducer<IBasicState, BasicActions> = (
 ) => {
   switch (action.type) {
     case BasicActionTypes.LOGIN: {
-      console.log('in reducer, login! action: ', action);
       return {
         ...state,
         userId: action.userId,
@@ -43,7 +42,6 @@ export const basicReducer: Reducer<IBasicState, BasicActions> = (
       return initialBasicState;
     }
     case BasicActionTypes.SIGNUP: {
-      console.log('in signup reducer, action is: ', action);
       return {
         ...state,
         username: action.username,
@@ -69,7 +67,6 @@ export const basicReducer: Reducer<IBasicState, BasicActions> = (
       return { ...state, chatType: action.chatType };
     }
     case BasicActionTypes.GETCOOKIE: {
-      console.log('in getcookie reducer, action is: ', action);
       return {
         ...state,
         username: action.username,

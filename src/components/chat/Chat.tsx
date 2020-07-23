@@ -15,7 +15,7 @@ const Chat: React.FC = () => {
 
   //   once a user is assigned a room, redirect them to the chat
   if (!room) history.push('/loading');
-  console.log('room in state is ', room);
+
 
   return (
     <div className='chat-section'>

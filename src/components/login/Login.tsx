@@ -59,7 +59,6 @@ const LogIn: React.FC<RouteComponentProps> = props => {
     const cookieUser = Cookies.get('kunligiUser');
     const cookieId = Cookies.get('kunligiId');
     if (cookieUser !== undefined && cookieId !== undefined) {
-        console.log('cookie detected! dispatching...');
         dispatch(getCookieAction(cookieUser, cookieId));
     }
   }, []);
@@ -100,8 +99,6 @@ const LogIn: React.FC<RouteComponentProps> = props => {
     }).then(res => {
         return res.json();
     }).then(data => {
-        console.log('in login submit, data:');
-        console.log(data);
         if (data.message !== 'username exists') {
             if (data.message === 'username not found') {
                 setInvalidUser(true);

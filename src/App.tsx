@@ -13,7 +13,6 @@ import SignUp from './components/login/SignUp';
 function App() {
   let history = useHistory();
   const username = useSelector((state: IAppState) => state.basicState.username);
-  console.log('in App, username: ', username);
   return (
     <Router>
     <div>
@@ -43,7 +42,6 @@ function App() {
 
 // Route wrapper that redirects to '/login' if user is not logged in
 function PrivateRoute( { children, ...rest }: any ) {
-  console.log('in private route');
   // const username = useSelector((state: IAppState) => state.basicState.username);
   let { username } = rest;
   return (
