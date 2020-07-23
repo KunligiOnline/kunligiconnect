@@ -11,7 +11,7 @@ const MessageInput: React.FC = () => {
   }
 
   return(
-    <div className="media">
+    <div className="media chat-input">
       <div className="media-content">
         <div className="field">
           <p className="control">

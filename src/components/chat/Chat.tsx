@@ -7,7 +7,7 @@ import MessageInput from './MessageInput'
 // will include routes to home page and next question and next user
 const Chat: React.FC = () => {
   return(
-    <div>
+    <div className="chat-section">
       <p>Question here</p>
       <Messages/>
       <MessageInput/>
