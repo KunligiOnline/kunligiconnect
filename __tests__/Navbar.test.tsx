@@ -18,16 +18,20 @@ let store;
 const initialBasicState: IBasicState = {
   email: '',
   username: '',
-  userId: '',
-  socket: '',
+  userId: null,
+  socket: null,
   chatType: '',
+  messages: [],
+  prompt: null,
+  room: null,
 };
+
 const mockStore = configureStore();
 
 beforeEach(() => {
   store = mockStore(initialBasicState);
   wrapper = mount(<Provider store={store}>
-  <NavbarConnected/>
+  <Navbar/>
   </Provider>);
 })
 
@@ -41,7 +45,7 @@ describe('Navbar Component', () => {
   })
 
   xit('snapshot matches', () => {
-    const wrapper = shallow(<NavbarConnected/>)
+    const wrapper = shallow(<Navbar/>)
     expect(wrapper).toMatchSnapshot()
   })
 })
