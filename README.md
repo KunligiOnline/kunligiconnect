@@ -8,7 +8,7 @@
   - To select a new question, select 'New question' and both users in the chat will receive the same new question.
   - To choose a new chat partner, select 'New partner' and both users in the chat will be redirected to new private chat rooms.
 
-![Gif of new chat](https://imgur.com/a/M0xOcpB)
+![Gif of new chat](https://i.imgur.com/N36Gmc1.gif)
 
 ## To Run Your Own Version
 
