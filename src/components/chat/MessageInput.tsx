@@ -2,11 +2,12 @@ import React, { KeyboardEvent, useState } from 'react';
 // import 'bulma/css/bulma.css'
 import '../../styles/bulmaStyles.scss';
 import { useDispatch } from 'react-redux';
-import { createSocketConn, Message } from '../../actions/basicActions';
+import { getNewPartner } from '../../actions/basicActions';
 import { useSelector } from 'react-redux';
 import { IAppState } from '../../store/store';
 
 const MessageInput: React.FC = () => {
+  const dispatch = useDispatch();
   const { userId, socket, room, prompt, chatType } = useSelector(
     (state: IAppState) => state.basicState
   );
@@ -38,6 +39,10 @@ const MessageInput: React.FC = () => {
     }
   };
 
+  const handleGetNewPartner = () => {
+    dispatch(getNewPartner());
+  };
+
   return (
     <div className="media chat-input">
       <div className="media-content">
@@ -58,7 +63,7 @@ const MessageInput: React.FC = () => {
             <div className="level-item" onClick={handleChangeQuestion}>
               <a className="button is-info">Next Question</a>
             </div>
-            <div className="level-item">
+            <div className="level-item" onClick={handleGetNewPartner}>
               <a className="button is-info">Next Match</a>
             </div>
           </div>
