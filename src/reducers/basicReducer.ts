@@ -42,7 +42,7 @@ export const basicReducer: Reducer<IBasicState, BasicActions> = (
       console.log('in reducer, login! action: ', action);
       return {
         ...state,
-        userId: action.id,
+        userId: action.userId,
         username: action.username,
       };
     }
@@ -74,6 +74,15 @@ export const basicReducer: Reducer<IBasicState, BasicActions> = (
     case BasicActionTypes.CHANGECHATTYPE: {
       return { ...state, chatType: action.chatType };
     }
+    case BasicActionTypes.GETCOOKIE: {
+      console.log('in getcookie reducer, action is: ', action);
+      return {
+        ...state,
+        username: action.username,
+        userId: action.userId,
+      };
+    }
+
     default:
       return state;
   }

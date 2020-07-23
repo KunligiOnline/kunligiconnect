@@ -17,7 +17,7 @@ const Chat: React.FC = () => {
   console.log('room in state is ', room);
 
   return (
-    <div>
+    <div className='chat-section'>
       <Question />
       <Messages />
       <MessageInput />

@@ -9,6 +9,7 @@ export enum BasicActionTypes {
   LOGIN = 'LOGIN',
   LOGOUT = 'LOGOUT',
   SIGNUP = 'SIGNUP',
+  GETCOOKIE = 'GETCOOKIE',
   CREATESOCKET = 'CREATESOCKET',
   CREATEROOM = 'CREATEROOM',
   ADDMESSAGE = 'ADDMESSAGE',
@@ -24,7 +25,7 @@ export interface IBasicAnyAction {
 export interface ILoginAction {
   type: BasicActionTypes.LOGIN;
   username: string;
-  id: number;
+  userId: number;
 }
 
 export interface ISignupAction {
@@ -35,6 +36,12 @@ export interface ISignupAction {
 
 export interface ILogoutAction {
   type: BasicActionTypes.LOGOUT;
+}
+
+export interface IGetCookieAction {
+    type: BasicActionTypes.GETCOOKIE;
+    username: string;
+    userId: number;
 }
 
 export interface ICreateSocketAction {
@@ -82,7 +89,8 @@ export type BasicActions =
   | ICreateRoomAction
   | IAddMessage
   | IChangePrompt
-  | IChangeChatType;
+  | IChangeChatType
+  | IGetCookieAction;
 
 /*<Promise<Return Type>, State Interface, Type of Param, Type of Action> */
 export const basicAction: ActionCreator<ThunkAction<
@@ -111,16 +119,17 @@ export const logoutAction: ActionCreator<ThunkAction<
   ILogoutAction
 >> = () => {
   return async (dispatch: Dispatch) => {
-    try {
-      // delete cookie
-      Cookies.remove('kunligi');
-      // may have to re-route?
-      console.log('logged out');
-      dispatch({
-        property: null,
-        type: BasicActionTypes.LOGOUT,
-      });
-    } catch (err) {
+      try {
+          // delete cookie
+          Cookies.remove('kunligiUser');
+          Cookies.remove('kunligiId');
+          // may have to re-route?
+          console.log('logged out');
+          dispatch({
+          property: null,
+          type: BasicActionTypes.LOGOUT
+          })
+      } catch (err) {
       console.error(err);
     }
   };
@@ -131,12 +140,12 @@ export const loginAction: ActionCreator<ThunkAction<
   IBasicState,
   null,
   ILoginAction
->> = (username: string, id: number) => {
+>> = (username: string, userId: number) => {
   return async (dispatch: Dispatch) => {
     try {
       dispatch({
         username,
-        id,
+        userId,
         type: BasicActionTypes.LOGIN,
       });
     } catch (err) {
@@ -165,6 +174,26 @@ export const signupAction: ActionCreator<ThunkAction<
   };
 };
 
+export const getCookieAction: ActionCreator<ThunkAction<
+  Promise<any>,
+  IBasicState,
+  null,
+  IGetCookieAction
+>> = (username: string, userId: number) => {
+  return async (dispatch: Dispatch) => {
+    console.log('in cookieAction, before fetch');
+    try {
+      dispatch({
+            username,
+            userId,
+            type: BasicActionTypes.GETCOOKIE,
+        });
+    } catch (err) {
+        console.error(err);
+      }
+    };
+}
+
 // opens up a socket connection and tells the socket server the type of room it wants to be connected to
 export const createSocketConn: ActionCreator<ThunkAction<
   Promise<any>,
@@ -184,7 +213,7 @@ export const createSocketConn: ActionCreator<ThunkAction<
       });
       // fire event from the socket that it is now looking for a connection
       // socket.emit('looking', userId, chatType);
-
+      console.log('user id of ',userId,'is looking for ',chatType)
       socket.emit('looking', userId, chatType);
 
       // add event listener to wait for the assigned room

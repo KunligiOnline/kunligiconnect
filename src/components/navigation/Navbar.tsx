@@ -1,52 +1,70 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { withRouter, RouteComponentProps} from 'react-router-dom';
 import { IAppState } from '../../store/store';
 import { logoutAction } from '../../actions/basicActions';
-import { NavLink } from 'react-router-dom';
+import { useHistory, NavLink } from 'react-router-dom';
 import * as H from 'history';
+import { makeStyles } from '@material-ui/core/styles';
 import { AppBar, Toolbar, Typography,  Button } from '@material-ui/core';
 import cyan from '@material-ui/core/colors/cyan';
 
 const colour = '#026670';
 
-const Navbar: React.FC = () => {
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+    marginBottom: theme.spacing(2),
+  },
+  menuButton: {
+    marginRight: theme.spacing(1),
+  },
+  title: {
+    flexGrow: 1,
+  },
+}));
 
-  // const dispatch = useDispatch();
-
-  // function login(location: H.LocationDescriptor): H.LocationDescriptor {
-  //   return '/login';
-  // }
+const Navbar: React.FC<RouteComponentProps> = (props) => {
+  const history = useHistory();
+  const classes = useStyles();
+  const dispatch = useDispatch();
   
-  // function logout(location: H.LocationDescriptor): H.LocationDescriptor {
-  //   dispatch(logoutAction());
-  //   return '/';
-  // }
+  const logout = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.preventDefault();
+    dispatch(logoutAction());
+    props.history.push('/login');
+  }
 
   const username = useSelector((state: IAppState) => state.basicState.username);
   if (username === '') {
     return (
-        <span className="navbar">
-            <AppBar position="static" style={{ background: colour, justifyContent: 'center'}}>
-              <Toolbar>
-                <Typography variant="h6">
-                  Kunligi
-                </Typography>
-                <Button color="inherit" style={{float:'right'}}>Login</Button>
-              </Toolbar>
-            </AppBar>
-            {/*<NavLink id="link" to='/login'>Sign Up</NavLink>*/}
-        </span>
+      <div className={classes.root}>
+          <AppBar position="static" style={{ background: colour, justifyContent: 'center'}}>
+            <Toolbar>
+              <Typography variant="h4" className={classes.title}>
+                Kunligi
+              </Typography>
+              {/* <Button color="inherit" onClick={() => history.push('/login')}>Login</Button> */}
+            </Toolbar>
+          </AppBar>
+      </div>
     );
   }
 
   return (
-    <span className="navbar">
-        <h2 id="Header">Kunligi</h2>
-        <button className="logout-button"><NavLink id="link" to="/" >Logout</NavLink></button>
-    </span>
+    <div className={classes.root}>
+      <AppBar position="static" style={{ background: colour, justifyContent: 'center'}}>
+        <Toolbar>
+          <Typography variant="h4" className={classes.title}>
+            Kunligi
+          </Typography>
+          <Button color="inherit" 
+            style={{float:'right'}} 
+            onClick={(e) => logout(e)}>Logout</Button>
+        </Toolbar>
+      </AppBar>
+    </div>
   );
 }
 
-
-
-export default Navbar;
+export default withRouter(Navbar);
