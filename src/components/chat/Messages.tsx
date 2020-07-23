@@ -1,5 +1,8 @@
 import React from 'react';
-import 'bulma/css/bulma.css'
+import 'bulma/css/bulma.css';
+import { useSelector } from 'react-redux';
+import { IAppState } from '../../store/store';
+import 'bulma/css/bulma.css';
 import Message from './Message';
 
 const Messages: React.FC = () => {
@@ -41,18 +44,22 @@ const Messages: React.FC = () => {
     message: 'sup', 
     created_at: '2:01pm' },
   ];
-
-  let messageComponents = messageList.map(m => 
-    <div className='messages-section'>
-      <Message sender={m.sender} message={m.message} created_at={m.created_at}/>
-    </div>
+  const { messages, username } = useSelector(
+    (state: IAppState) => state.basicState
   );
-  
-  return(
-      <div>
-        {messageComponents}
-      </div>
-  )
-}
+
+  let messageComponents = messages.map((m, index) => (
+    <div className="messages-section">
+      <Message
+        key={'mess' + index}
+        sender={m.username}
+        message={m.message}
+        created_at={m.created_at}
+      />
+    </div>
+  ));
+
+  return <div>{messageComponents}</div>;
+};
 
 export default Messages;
