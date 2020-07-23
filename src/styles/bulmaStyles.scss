@@ -10,7 +10,18 @@ $warning: #556E70;
   flex-direction: column;
   align-items: stretch;
   max-width: 960px;
+
+  > div > p {
+    text-align: center;
+    margin-top: 10px;
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+    font-size: 18px;
+    font-weight: 600;
+  }
+
 }
+
 
 .messages-section {
   display: flex;
@@ -36,17 +47,20 @@ $warning: #556E70;
   text-align: right;
 };
 
-.from-user { 
-
-  .message-header {
-    text-align: right;
-  }
-  
-}
-
 .from-other {
   align-self: flex-start;
 };
 
 @import "../../node_modules/bulma/bulma.sass";
 
+.is-primary.input {
+  border-color: #999 !important;
+}
+
+.button.is-primary {
+  background-color: #026670 !important;
+}
+
+.message-header {
+  display: block;
+}
