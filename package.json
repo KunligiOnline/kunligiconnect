@@ -68,7 +68,7 @@
     "start": "react-scripts start",
     "dev": "concurrently \"react-scripts start\" \"nodemon ./server/server.js\"",
     "build": "react-scripts build",
-    "test": "jest --verbose --coverage --watchAll --forceExit",
+    "test": "jest --verbose --coverage --forceExit",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
