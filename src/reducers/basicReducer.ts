@@ -31,13 +31,6 @@ export const basicReducer: Reducer<IBasicState, BasicActions> = (
   action
 ) => {
   switch (action.type) {
-    case BasicActionTypes.ANY: {
-      // logic here
-      return {
-        ...state,
-        property: action.property,
-      };
-    }
     case BasicActionTypes.LOGIN: {
       console.log('in reducer, login! action: ', action);
       return {
