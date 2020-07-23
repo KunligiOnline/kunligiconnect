@@ -138,7 +138,7 @@ export const logoutAction: ActionCreator<ThunkAction<
       Cookies.remove('kunligiUser');
       Cookies.remove('kunligiId');
       // may have to re-route?
-      console.log('logged out');
+
       dispatch({
         property: null,
         type: BasicActionTypes.LOGOUT,
@@ -175,15 +175,13 @@ export const signupAction: ActionCreator<ThunkAction<
   ISignupAction
 >> = (username: string, email: string, password: string, userId: number) => {
   return async (dispatch: Dispatch) => {
-    console.log('in signupAction, before fetch');
-    console.log('id being passed in: ', userId);
     try {
       dispatch({
-            username,
-            email,
-            userId,
-            type: BasicActionTypes.SIGNUP,
-        }); 
+        username,
+        email,
+        userId,
+        type: BasicActionTypes.SIGNUP,
+      });
     } catch (err) {
       console.error(err);
     }
@@ -197,7 +195,6 @@ export const getCookieAction: ActionCreator<ThunkAction<
   IGetCookieAction
 >> = (username: string, userId: number) => {
   return async (dispatch: Dispatch) => {
-    console.log('in cookieAction, before fetch');
     try {
       dispatch({
         username,
@@ -229,7 +226,7 @@ export const createSocketConn: ActionCreator<ThunkAction<
       });
       // fire event from the socket that it is now looking for a connection
       // socket.emit('looking', userId, chatType);
-      console.log('user id of ', userId, 'is looking for ', chatType);
+
       socket.emit('looking', userId, chatType);
 
       // add event listener to wait for the assigned room
@@ -298,7 +295,6 @@ export const getNewPartner: ActionCreator<ThunkAction<
   IGetNewPartnerAction
 >> = (chatType: string) => {
   return async (dispatch: Dispatch, getState: any) => {
-    console.log('resetting the socket connection');
     const { chatType, userId, socket, room } = getState().basicState;
     try {
       // remove room and chat history from state

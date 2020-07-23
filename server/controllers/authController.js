@@ -10,7 +10,6 @@ authController.checkUserExists = (req, res, next) => {
   db.query(queryText, [username])
     .then((data) => {
       if (!data.rows[0]) {
-        console.log('username not yet taken in database');
         res.locals.message = "username not found";
         return next();
       } else {
@@ -69,7 +68,6 @@ authController.signUp = async (req, res, next) => {
       })
     }
     password = hash;
-    console.log('AFTER HASHING, password: ', password);
     const queryText = `
     INSERT INTO public.users(username, email, password)
     VALUES ($1, $2, $3) 
