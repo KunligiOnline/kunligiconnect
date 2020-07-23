@@ -20,7 +20,7 @@ const initialBasicState: IBasicState = {
   username: '',
   userId: null,
   socket: null,
-  chatType: 'Deep connection',
+  chatType: '',
   messages: [],
   prompt: null,
   room: null,
@@ -71,7 +71,9 @@ export const basicReducer: Reducer<IBasicState, BasicActions> = (
     case BasicActionTypes.CHANGEPROMPT: {
       return { ...state, prompt: action.prompt };
     }
-
+    case BasicActionTypes.CHANGECHATTYPE: {
+      return { ...state, chatType: action.chatType };
+    }
     default:
       return state;
   }

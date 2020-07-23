@@ -4,7 +4,8 @@ const findConnection = (connectionReq, chatQueue) => {
   // if there's a match return the match
   for (let i = 0; i <= chatQueue.length - 1; i++) {
     const conn = chatQueue[i];
-    if (conn.type === connectionReq.type) {
+
+    if (conn.chatType === connectionReq.chatType) {
       chatQueue.splice(i, 1);
       return conn;
     }

@@ -37,24 +37,26 @@ app.use('/user', userRouter);
 
 // app.use('/auth', authRouter);
 
-app.post('/login',
+app.post(
+  '/login',
   authController.checkUserNotFound,
   authController.logIn,
   cookieController.setCookie,
   (req, res) => {
-  res.status(200).json(res.locals);
-});
+    res.status(200).json(res.locals);
+  }
+);
 
-app.post('/signup', 
+app.post(
+  '/signup',
   authController.checkUserExists,
-  authController.signUp ,
+  authController.signUp,
   (req, res) => {
-  res.status(200).json(res.locals);
-});
+    res.status(200).json(res.locals);
+  }
+);
 
-app.get('/logout',
-  cookieController.clearCookie,
-  (req, res) => {
+app.get('/logout', cookieController.clearCookie, (req, res) => {
   res.status(200).json('successful logout');
 });
 
@@ -155,6 +157,3 @@ app.use((req, res) => res.sendStatus(404));
 server.listen(PORT, '127.0.0.1');
 
 module.exports = app;
-
-
-

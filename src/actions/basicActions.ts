@@ -4,7 +4,6 @@ import { IBasicState } from '../reducers/basicReducer';
 import socketIOClient from 'socket.io-client';
 import Cookies from 'js-cookie';
 
-
 export enum BasicActionTypes {
   ANY = 'ANY',
   LOGIN = 'LOGIN',
@@ -14,6 +13,7 @@ export enum BasicActionTypes {
   CREATEROOM = 'CREATEROOM',
   ADDMESSAGE = 'ADDMESSAGE',
   CHANGEPROMPT = 'CHANGEPROMPT',
+  CHANGECHATTYPE = `CHANGECHATTYPE`,
 }
 
 export interface IBasicAnyAction {
@@ -24,7 +24,7 @@ export interface IBasicAnyAction {
 export interface ILoginAction {
   type: BasicActionTypes.LOGIN;
   username: string;
-  id: number,
+  id: number;
 }
 
 export interface ISignupAction {
@@ -57,6 +57,11 @@ export interface IChangePrompt {
   prompt: Prompt;
 }
 
+export interface IChangeChatType {
+  type: BasicActionTypes.CHANGECHATTYPE;
+  chatType: string;
+}
+
 export interface Prompt {
   id: number;
   prompt: string;
@@ -76,7 +81,8 @@ export type BasicActions =
   | ICreateSocketAction
   | ICreateRoomAction
   | IAddMessage
-  | IChangePrompt;
+  | IChangePrompt
+  | IChangeChatType;
 
 /*<Promise<Return Type>, State Interface, Type of Param, Type of Action> */
 export const basicAction: ActionCreator<ThunkAction<
@@ -128,7 +134,6 @@ export const loginAction: ActionCreator<ThunkAction<
 >> = (username: string, id: number) => {
   return async (dispatch: Dispatch) => {
     try {
-      
       dispatch({
         username,
         id,
@@ -149,13 +154,11 @@ export const signupAction: ActionCreator<ThunkAction<
   return async (dispatch: Dispatch) => {
     console.log('in signupAction, before fetch');
     try {
-      
       dispatch({
-            username,
-            email,
-            type: BasicActionTypes.SIGNUP,
-        });
-    
+        username,
+        email,
+        type: BasicActionTypes.SIGNUP,
+      });
     } catch (err) {
       console.error(err);
     }
@@ -168,11 +171,11 @@ export const createSocketConn: ActionCreator<ThunkAction<
   IBasicState,
   null,
   ICreateSocketAction
->> = () => {
+>> = (chatType: string) => {
   return async (dispatch: Dispatch, getState: any) => {
     console.log('creating a socket connection');
 
-    const { chatType, userId } = getState().basicState;
+    const { userId } = getState().basicState;
 
     try {
       // set up a new socket connection
@@ -181,6 +184,7 @@ export const createSocketConn: ActionCreator<ThunkAction<
       });
       // fire event from the socket that it is now looking for a connection
       // socket.emit('looking', userId, chatType);
+
       socket.emit('looking', userId, chatType);
 
       // add event listener to wait for the assigned room
@@ -197,9 +201,16 @@ export const createSocketConn: ActionCreator<ThunkAction<
         dispatch(changePrompt(newPrompt));
       });
 
+      // adds socket to state
       dispatch({
         socket: socket,
         type: BasicActionTypes.CREATESOCKET,
+      });
+
+      // set the chat type in state
+      dispatch({
+        chatType: chatType,
+        type: BasicActionTypes.CHANGECHATTYPE,
       });
     } catch (err) {
       console.error(err);
@@ -220,4 +231,9 @@ export const addMessage = (message: Message): IAddMessage => ({
 export const changePrompt = (prompt: Prompt): IChangePrompt => ({
   type: BasicActionTypes.CHANGEPROMPT,
   prompt: prompt,
+});
+
+export const changeChatType = (chatType: string): IChangeChatType => ({
+  type: BasicActionTypes.CHANGECHATTYPE,
+  chatType: chatType,
 });
