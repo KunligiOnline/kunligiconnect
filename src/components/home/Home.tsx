@@ -10,7 +10,6 @@ import { createSocketConn } from '../../actions/basicActions';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-import cyan from '@material-ui/core/colors/cyan';
 
 const useStyles = makeStyles(theme => ({
     chatType: {

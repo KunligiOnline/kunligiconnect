@@ -21,6 +21,6 @@
   },
   "include": [
     "src",
-    "server"
+    "server", "__tests__/Login.test.tsx"
   ]
 }
