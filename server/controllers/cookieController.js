@@ -2,8 +2,8 @@ const cookieController = {};
 
 cookieController.setCookie = (req, res, next) => {
   const { username, id } = res.locals.currentUser;
-  res.cookie('kunligiUser', username, { maxAge: 360000 , path: '/'});
-  res.cookie('kunligiId', id, { maxAge: 360000 , path: '/'});
+  res.cookie('kunligiUser', username, { maxAge: 1250000 , path: '/'});
+  res.cookie('kunligiId', id, { maxAge: 1250000 , path: '/'});
   return next();
 };
 
