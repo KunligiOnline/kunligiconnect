@@ -34,6 +34,7 @@ export interface ISignupAction {
   type: BasicActionTypes.SIGNUP;
   email: string;
   username: string;
+  userId: number;
 }
 
 export interface ILogoutAction {
@@ -172,15 +173,17 @@ export const signupAction: ActionCreator<ThunkAction<
   IBasicState,
   null,
   ISignupAction
->> = (username: string, email: string, password: string) => {
+>> = (username: string, email: string, password: string, userId: number) => {
   return async (dispatch: Dispatch) => {
     console.log('in signupAction, before fetch');
+    console.log('id being passed in: ', userId);
     try {
       dispatch({
-        username,
-        email,
-        type: BasicActionTypes.SIGNUP,
-      });
+            username,
+            email,
+            userId,
+            type: BasicActionTypes.SIGNUP,
+        }); 
     } catch (err) {
       console.error(err);
     }

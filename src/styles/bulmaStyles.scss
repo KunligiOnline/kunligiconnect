@@ -36,6 +36,14 @@ $warning: #556E70;
   text-align: right;
 };
 
+.from-user { 
+
+  .message-header {
+    text-align: right;
+  }
+  
+}
+
 .from-other {
   align-self: flex-start;
 };

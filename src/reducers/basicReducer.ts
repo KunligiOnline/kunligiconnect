@@ -55,6 +55,7 @@ export const basicReducer: Reducer<IBasicState, BasicActions> = (
         ...state,
         username: action.username,
         email: action.email,
+        userId: action.userId
       };
     }
     case BasicActionTypes.CREATESOCKET: {
