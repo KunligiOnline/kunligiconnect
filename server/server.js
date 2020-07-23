@@ -37,24 +37,26 @@ app.use('/user', userRouter);
 
 // app.use('/auth', authRouter);
 
-app.post('/login',
+app.post(
+  '/login',
   authController.checkUserNotFound,
   authController.logIn,
   cookieController.setCookie,
   (req, res) => {
-  res.status(200).json(res.locals);
-});
+    res.status(200).json(res.locals);
+  }
+);
 
-app.post('/signup', 
+app.post(
+  '/signup',
   authController.checkUserExists,
-  authController.signUp ,
+  authController.signUp,
   (req, res) => {
-  res.status(200).json(res.locals);
-});
+    res.status(200).json(res.locals);
+  }
+);
 
-app.get('/logout',
-  cookieController.clearCookie,
-  (req, res) => {
+app.get('/logout', cookieController.clearCookie, (req, res) => {
   res.status(200).json('successful logout');
 });
 
@@ -91,13 +93,14 @@ io.on('connection', (socket) => {
   // the callback checks if there's also someone in the queue who is looking to connect
   // if not, they request is added to the callback queue
   // if so, a new chat is started in the DB and a each client is sent a room number
-  socket.on('looking', (userId, chatType) => {
+  socket.on('looking', (userId, chatType, oldPartnerUserId) => {
     console.log('Adding userId ', userId, ' to queue: ', chatType);
     let connectionRequest = {
       socketId: socket.id,
       userId,
       chatType,
       socket,
+      oldPartnerUserId
     };
     let partner = findConnection(connectionRequest, chatQueue);
     if (partner) {
@@ -117,6 +120,12 @@ io.on('connection', (socket) => {
 
   socket.on('get new prompt', (hash, chatType) => {
     givePrompt(hash, chatType);
+  });
+
+  socket.on('leave room', (roomId, userId) => {
+    socket.leave(roomId, () => {
+      io.to(roomId).emit('room closed', userId);
+    });
   });
 
   const setUpRoom = async (partner1, partner2) => {
@@ -155,6 +164,3 @@ app.use((req, res) => res.sendStatus(404));
 server.listen(PORT, '127.0.0.1');
 
 module.exports = app;
-
-
-
