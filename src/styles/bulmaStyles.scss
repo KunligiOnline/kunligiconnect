@@ -5,11 +5,26 @@ $info: darken($primary, 5);
 $success: #EBD3D0;
 $warning: #556E70;
 
+.chat-section {
+  display:flex;
+  flex-direction: column;
+  align-items: stretch;
+  max-width: 960px;
+}
+
 .messages-section {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
 };
+
+.chat-input {
+  position: sticky;
+  max-width: 960px;
+  bottom: 0;
+  padding: 10px;
+  background-color: white;
+}
 
 .chat-message {
   width: 60%;
@@ -18,6 +33,7 @@ $warning: #556E70;
 
 .from-user {
   align-self: flex-end;
+  text-align: right;
 };
 
 .from-other {
