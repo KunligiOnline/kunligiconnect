@@ -1,10 +1,9 @@
 import React from 'react';
-import Navbar from '../navigation/Navbar';
-
 import { Link } from 'react-router-dom';
-
 import { useDispatch } from 'react-redux';
 import { createSocketConn } from '../../actions/basicActions';
+import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
 
 const Home: React.FC = () => {
   const dispatch = useDispatch();
@@ -18,15 +17,25 @@ const Home: React.FC = () => {
 
   return (
     <div>
-      <div>
-        <button>Deep Connection</button>
-        <button>Difficult Topics</button>
-      </div>
-      <button>
-        <Link to="/loading" onClick={connectToRoom}>
-          Get Started
-        </Link>
-      </button>
+      <Grid container justify="flex-end">
+        <Grid item>
+          <Button type="submit" fullWidth variant="contained" color="default">
+            Deep Connection
+          </Button>
+        </Grid>
+        <Grid item>
+          <Button type="submit" fullWidth variant="contained" color="default">
+            Difficult Topics
+          </Button>
+        </Grid>
+        <Grid item>
+          <Button type="submit" fullWidth variant="contained" color="default">
+            <Link to="/loading" onClick={connectToRoom}>
+              Get Started
+            </Link>
+          </Button>
+        </Grid>
+      </Grid>
     </div>
   );
 };

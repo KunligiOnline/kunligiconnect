@@ -11,13 +11,13 @@ var io = require('socket.io')(server);
 const cors = require('cors');
 
 // const session = require('express-session');
-// const cookieParser = require('cookie-parser');
+const cookieParser = require('cookie-parser');
 
 const PORT = process.env.PORT || 4000;
 // server.listen(3000, '127.0.0.1');
 
 app.use(cors());
-// app.use(cookieParser())
+app.use(cookieParser());
 app.use(express.json());
 
 // import routes
@@ -27,8 +27,9 @@ const userRouter = require('./routes/users');
 // catch-all route handler for any requests to an unknown route
 app.use(cors());
 io.set('origins', '*:*');
-// const chatController = require('./controllers/chatController');
-// const userController = require('./controllers/userController');
+const chatController = require('./controllers/chatController');
+const cookieController = require('./controllers/cookieController');
+const userController = require('./controllers/userController');
 const authController = require('./controllers/authController');
 
 app.use('/chat', chatRouter);
@@ -36,12 +37,25 @@ app.use('/user', userRouter);
 
 // app.use('/auth', authRouter);
 
-app.post('/login', authController.logIn, (req, res) => {
-  res.status(200).send('login');
+app.post('/login',
+  authController.checkUserNotFound,
+  authController.logIn,
+  cookieController.setCookie,
+  (req, res) => {
+  res.status(200).json(res.locals);
 });
 
-app.post('/signup', authController.signUp, (req, res) => {
-  res.status(200).json(res.locals.newUser);
+app.post('/signup', 
+  authController.checkUserExists,
+  authController.signUp ,
+  (req, res) => {
+  res.status(200).json(res.locals);
+});
+
+app.get('/logout',
+  cookieController.clearCookie,
+  (req, res) => {
+  res.status(200).json('successful logout');
 });
 
 /* express error handler
@@ -141,3 +155,6 @@ app.use((req, res) => res.sendStatus(404));
 server.listen(PORT, '127.0.0.1');
 
 module.exports = app;
+
+
+

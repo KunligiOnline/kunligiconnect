@@ -6,7 +6,7 @@ import { Prompt, Message } from '../actions/basicActions';
 export interface IBasicState {
   email: string;
   username: string;
-  userId: number;
+  userId: number | null;
   // socket: typeof Socket | null;
   socket: any;
   chatType: string;
@@ -18,7 +18,7 @@ export interface IBasicState {
 const initialBasicState: IBasicState = {
   email: '',
   username: '',
-  userId: 1,
+  userId: null,
   socket: null,
   chatType: 'Deep connection',
   messages: [],
@@ -32,21 +32,30 @@ export const basicReducer: Reducer<IBasicState, BasicActions> = (
 ) => {
   switch (action.type) {
     case BasicActionTypes.ANY: {
+      // logic here
       return {
         ...state,
         property: action.property,
       };
     }
     case BasicActionTypes.LOGIN: {
+      console.log('in reducer, login! action: ', action);
       return {
         ...state,
-        email: action.email,
+        userId: action.id,
         username: action.username,
-        password: action.password,
       };
     }
     case BasicActionTypes.LOGOUT: {
       return initialBasicState;
+    }
+    case BasicActionTypes.SIGNUP: {
+      console.log('in signup reducer, action is: ', action);
+      return {
+        ...state,
+        username: action.username,
+        email: action.email,
+      };
     }
     case BasicActionTypes.CREATESOCKET: {
       return { ...state, socket: action.socket };

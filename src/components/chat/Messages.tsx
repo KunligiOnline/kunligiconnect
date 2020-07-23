@@ -2,22 +2,26 @@ import React from 'react';
 import 'bulma/css/bulma.css';
 import { useSelector } from 'react-redux';
 import { IAppState } from '../../store/store';
+import 'bulma/css/bulma.css';
+import Message from './Message';
 
 const Messages: React.FC = () => {
-  const { messages } = useSelector((state: IAppState) => state.basicState);
-  console.log('in the messages comp, messages are: ', messages);
-  return (
-    <div>
-      {/* <p> Messages here...</p> */}
-      {messages.map((message) => {
-        return (
-          <p>
-            {message.username}: {message.message}
-          </p>
-        );
-      })}
-    </div>
+  const { messages, username } = useSelector(
+    (state: IAppState) => state.basicState
   );
+
+  let messageComponents = messages.map((m, index) => (
+    <div className="messages-section">
+      <Message
+        key={'mess' + index}
+        sender={m.username}
+        message={m.message}
+        created_at={m.created_at}
+      />
+    </div>
+  ));
+
+  return <div>{messageComponents}</div>;
 };
 
 export default Messages;
