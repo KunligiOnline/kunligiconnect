@@ -82,7 +82,6 @@ const SignUp: React.FC = props => {
   
 
   const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    console.log('Sign up info submitted!');
     e.preventDefault();
 
     // Reset Error Validation
@@ -164,7 +163,6 @@ const SignUp: React.FC = props => {
     }
 
     if(!invalidUsername && !invalidPassword && !invalidEmail && !invalidVerifyPassword) {
-      console.log('sign up info validated...calling fetch/dispatch');
       
       const body = JSON.stringify({
         username,
@@ -181,7 +179,6 @@ const SignUp: React.FC = props => {
       })
       .then(res => res.json())
       .then(data =>{
-        console.log('in signupAction, after fetch: ', data);
         if (data.message === 'username exists') {
           setInvalidUsername(true);
           setInvalidUsernameMsg('Username Taken');

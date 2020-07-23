@@ -46,7 +46,6 @@ const classes = useStyles();
   // when the user clicks 'Get started', open up a web socket connection in the background
   // as the connection is made and they're waiting for a room, open the loading screen
   const connectToRoom = (chatType: string) => {
-    console.log('looking for a room');
     dispatch(createSocketConn(chatType));
   };
 
