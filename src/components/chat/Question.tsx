@@ -1,13 +1,14 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { IAppState } from '../../store/store';
+import { Prompt } from '../../actions/basicActions';
 
 const Question: React.FC = () => {
-  const prompt = useSelector((state: IAppState) => state.basicState.room);
+  const prompt = useSelector((state: IAppState) => state.basicState.prompt);
   console.log('the prompt is ', prompt);
   return (
     <div>
-      <p>Question: </p>
+      <p>{prompt ? prompt.prompt : 'Choosing a prompt...'}</p>
     </div>
   );
 };

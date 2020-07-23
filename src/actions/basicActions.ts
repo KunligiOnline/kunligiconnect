@@ -52,12 +52,23 @@ export interface ICreateRoomAction {
 
 export interface IAddMessage {
   type: BasicActionTypes.ADDMESSAGE;
-  message: {};
+  message: Message;
 }
 
 export interface IChangePrompt {
   type: BasicActionTypes.CHANGEPROMPT;
-  prompt: {};
+  prompt: Prompt;
+}
+
+export interface Prompt {
+  id: number;
+  prompt: string;
+}
+
+export interface Message {
+  username: string;
+  message: string;
+  created_at: string;
 }
 
 export type BasicActions =
@@ -116,7 +127,7 @@ export const signupAction: ActionCreator<ThunkAction<
   IBasicState,
   null,
   ISignupAction
->> = (username: string, email: string, password: string)  => {
+>> = (username: string, email: string, password: string) => {
   return async (dispatch: Dispatch) => {
     console.log('in signupAction, before fetch');
     try {
@@ -157,8 +168,7 @@ export const createSocketConn: ActionCreator<ThunkAction<
   return async (dispatch: Dispatch, getState: any) => {
     console.log('creating a socket connection');
 
-    const { chatType, userId } = getState();
-    console.log('The chattype and user id are :', chatType, userId);
+    const { chatType, userId } = getState().basicState;
 
     try {
       // set up a new socket connection
@@ -167,24 +177,19 @@ export const createSocketConn: ActionCreator<ThunkAction<
       });
       // fire event from the socket that it is now looking for a connection
       // socket.emit('looking', userId, chatType);
-      socket.emit('looking', 1, 'Deep connection');
+      socket.emit('looking', userId, chatType);
 
       // add event listener to wait for the assigned room
       // add that room to state
       socket.on('room', (room: string) => {
-        console.log('setting room of :', room);
         dispatch(createRoom(room));
       });
 
-      socket.on('new message', (messageData: any) => {
-        console.log('received message ', messageData);
-        // const newMessages = [...messages];
-        // newMessages.push(messageData);
-        // setMessages(newMessages);
+      socket.on('new message', (messageData: Message) => {
+        dispatch(addMessage(messageData));
       });
 
-      socket.on('prompt', (newPrompt: {}) => {
-        console.log('received new prompt ', newPrompt);
+      socket.on('prompt', (newPrompt: Prompt) => {
         dispatch(changePrompt(newPrompt));
       });
 
@@ -203,12 +208,12 @@ export const createRoom = (room: string): ICreateRoomAction => ({
   room: room,
 });
 
-export const addMessage = (message: {}): IAddMessage => ({
+export const addMessage = (message: Message): IAddMessage => ({
   type: BasicActionTypes.ADDMESSAGE,
   message: message,
 });
 
-export const changePrompt = (prompt: {}): IChangePrompt => ({
+export const changePrompt = (prompt: Prompt): IChangePrompt => ({
   type: BasicActionTypes.CHANGEPROMPT,
   prompt: prompt,
 });

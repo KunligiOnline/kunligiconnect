@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import 'bulma/css/bulma.css';
-import Messages from '../chat/Messages';
-import MessageInput from '../chat/MessageInput';
+import Messages from './Messages';
+import MessageInput from './MessageInput';
+import Question from './Question';
 
 // will include routes to home page and next question and next user
 const Chat: React.FC = () => {
@@ -35,11 +36,10 @@ const Chat: React.FC = () => {
   //   console.log('received new prompt ', newPrompt);
   //   setPrompt(newPrompt);
   // });
-  
 
   return (
     <div>
-      <p>Question here</p>
+      <Question />
       <Messages />
       <MessageInput />
     </div>

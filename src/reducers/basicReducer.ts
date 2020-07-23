@@ -1,6 +1,7 @@
 import { Reducer } from 'redux';
 import { BasicActionTypes, BasicActions } from '../actions/basicActions';
 import { Socket } from 'socket.io-client';
+import { Prompt, Message } from '../actions/basicActions';
 
 export interface IBasicState {
   email: string;
@@ -9,8 +10,8 @@ export interface IBasicState {
   // socket: typeof Socket | null;
   socket: any;
   chatType: string;
-  messages: [];
-  prompt: {};
+  messages: Message[];
+  prompt: Prompt | null;
   room: null | string;
 }
 
@@ -21,7 +22,7 @@ const initialBasicState: IBasicState = {
   socket: null,
   chatType: 'Deep connection',
   messages: [],
-  prompt: {},
+  prompt: null,
   room: null,
 };
 
@@ -46,23 +47,17 @@ export const basicReducer: Reducer<IBasicState, BasicActions> = (
     }
     case BasicActionTypes.LOGOUT: {
       return initialBasicState;
-      // return {
-      //   ...state,
-      //   email: '',
-      //   username: '',
-      // }
     }
     case BasicActionTypes.CREATESOCKET: {
       return { ...state, socket: action.socket };
     }
     case BasicActionTypes.CREATEROOM: {
-      console.log('in the create rooom reducer with action ', action.room);
       const room = action.room;
       return { ...state, room };
     }
     case BasicActionTypes.ADDMESSAGE: {
       const messages = [...state.messages, action.message];
-      return { ...state };
+      return { ...state, messages };
     }
     case BasicActionTypes.CHANGEPROMPT: {
       return { ...state, prompt: action.prompt };
