@@ -1,52 +1,35 @@
-.App {
+html {
+  overflow: auto !important;
+}
+
+.loading {
   text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.navbar {
-  text-align: center;
-  padding: 20px;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+  margin-top: 70px;
 }
 
 .signup-form {
-  width: 320px;
+  width: 290px;
   font-size: 16px;
   margin: 0 auto;
+  margin-top: 35px;
 }
+
+.signup-form p {
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.login-form {
+  width: 290px;
+  font-size: 16px;
+  margin: 0 auto;
+  margin-top: 35px;
+}
+
+.login-form p {
+  text-align: center;
+}
+
 
 .auth-button {
   margin-top: 25px;
@@ -57,16 +40,17 @@
 }
 
 .spinner {
-  margin: 50px auto 0;
-  width: 70px;
+  margin: 50px auto 50px;
+  /* width: 70px; */
   text-align: center;
 }
 
 .spinner > div {
   width: 18px;
   height: 18px;
-  background-color: #333;
-
+  background-color: #6adfe9;
+  margin-left: 5px;
+  margin-right: 5px;
   border-radius: 100%;
   display: inline-block;
   -webkit-animation: sk-bouncedelay 1.4s infinite ease-in-out both;
@@ -74,13 +58,23 @@
 }
 
 .spinner .bounce1 {
-  -webkit-animation-delay: -0.32s;
-  animation-delay: -0.32s;
+  -webkit-animation-delay: -0.24s;
+  animation-delay: -0.24s;
 }
 
 .spinner .bounce2 {
-  -webkit-animation-delay: -0.16s;
-  animation-delay: -0.16s;
+  -webkit-animation-delay: -0.12s;
+  animation-delay: -0.12s;
+}
+
+.spinner .bounce4 {
+  -webkit-animation-delay: 0.12s;
+  animation-delay: 0.12s;
+}
+
+.spinner .bounce5 {
+  -webkit-animation-delay: 0.24s;
+  animation-delay: 0.24s;
 }
 
 @-webkit-keyframes sk-bouncedelay {
@@ -96,4 +90,9 @@
     -webkit-transform: scale(1.0);
     transform: scale(1.0);
   }
+}
+
+.home-buttons {
+  margin: auto;
+  padding: 10%;
 }

@@ -1,5 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { withRouter, RouteComponentProps} from 'react-router-dom';
 import { IAppState } from '../../store/store';
 import { logoutAction } from '../../actions/basicActions';
 import { useHistory, NavLink } from 'react-router-dom';
@@ -8,7 +9,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { AppBar, Toolbar, Typography,  Button } from '@material-ui/core';
 import cyan from '@material-ui/core/colors/cyan';
 
-const colour = '#026670';
+const colour = cyan[200];
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,10 +24,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Navbar: React.FC = () => {
+const Navbar: React.FC<RouteComponentProps> = (props) => {
   const history = useHistory();
   const classes = useStyles();
   const dispatch = useDispatch();
+  
+  const logout = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.preventDefault();
+    dispatch(logoutAction());
+  }
 
   const username = useSelector((state: IAppState) => state.basicState.username);
   if (username === '') {
@@ -40,7 +46,6 @@ const Navbar: React.FC = () => {
               <Button color="inherit" onClick={() => history.push('/login')}>Login</Button>
             </Toolbar>
           </AppBar>
-          {/*<NavLink id="link" to='/login'>Sign Up</NavLink>*/}
       </div>
     );
   }
@@ -54,16 +59,11 @@ const Navbar: React.FC = () => {
           </Typography>
           <Button color="inherit" 
             style={{float:'right'}} 
-            onClick={() => {
-              dispatch(logoutAction());
-              history.push('/login');
-            }}>Logout</Button>
+            onClick={(e) => logout(e)}>Logout</Button>
         </Toolbar>
       </AppBar>
     </div>
   );
 }
 
-
-
-export default Navbar;
+export default withRouter(Navbar);

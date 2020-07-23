@@ -15,12 +15,27 @@ import { signupAction } from '../../actions/basicActions';
 const useStyles = makeStyles(theme => ({
   
   submit: {
-    margin: theme.spacing(3, 0, 2)
+    margin: theme.spacing(3, 0, 2),
+    color: '#333',
+    '&:hover': {
+      backgroundColor: '#6adfe9'
+    }
   },
   root: {
-    
+    '& .MuiInputBase-root': {
+      height: '50px'
+    },
+    '& .MuiInputLabel-outlined': {
+      top: '-2px',
+      fontSize: '85%'
+    },
+    '& .MuiInputLabel-outlined.MuiInputLabel-shrink': {
+      top: '0',
+      left: '10px',
+      color: '#777'
+    },
     '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
-      borderColor: '#3EC1AC'
+      borderColor: '#6adfe9'
     }
   }
 }));
@@ -206,7 +221,7 @@ const SignUp: React.FC = props => {
               <Grid container spacing={2}>
                 <Grid item xs={12}>
                   <TextField
-                    // className={classes.root}
+                    className={classes.root}
                     variant="outlined"
                     required
                     fullWidth
@@ -223,7 +238,7 @@ const SignUp: React.FC = props => {
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
-                    // className={classes.root}
+                    className={classes.root}
                     variant="outlined"
                     required
                     fullWidth
@@ -239,7 +254,7 @@ const SignUp: React.FC = props => {
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
-                    // className={classes.root}
+                    className={classes.root}
                     variant="outlined"
                     required
                     fullWidth
@@ -256,7 +271,7 @@ const SignUp: React.FC = props => {
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
-                    // className={classes.root}
+                    className={classes.root}
                     variant="outlined"
                     required
                     fullWidth
@@ -272,13 +287,6 @@ const SignUp: React.FC = props => {
                   />
                 </Grid>
               </Grid>
-
-                {/* <label>Username</label>
-                <input type="text" id="username" name="username" value={userName} onChange={handleChange}/><br/>
-                <label>E-mail</label>
-                <input type="text" id="email" name="email" value={email} onChange={handleChange}/><br/>
-                <label>Password</label>
-                <input type="password" id="password" name="password" value={password} onChange={handleChange}/><br/> */}
               </form>
               <Button
                 type="submit"
@@ -288,7 +296,7 @@ const SignUp: React.FC = props => {
                 className={classes.submit}
                 onClick={e => handleSubmit(e)}
               >Sign Up</Button>
-              <Grid container justify="flex-end">
+              <Grid container justify="center">
                 <Grid item>
                   <RouteLink to={`/`} className="nav-link">
                     Already have an account? Log In

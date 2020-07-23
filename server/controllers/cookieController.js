@@ -1,13 +1,15 @@
 const cookieController = {};
 
 cookieController.setCookie = (req, res, next) => {
-  const { username } = req.body;
-  res.cookie('kunligi', username, { maxAge: 36000 });
+  const { username, id } = res.locals.currentUser;
+  res.cookie('kunligiUser', username, { maxAge: 1250000 , path: '/'});
+  res.cookie('kunligiId', id, { maxAge: 1250000 , path: '/'});
   return next();
 };
 
 cookieController.clearCookie = (req, res, next) => {
-  res.clearCookie('kunligi');
+  res.clearCookie('kunligiUser');
+  res.clearCookie('kunligiId');
   return next();
 };
 
