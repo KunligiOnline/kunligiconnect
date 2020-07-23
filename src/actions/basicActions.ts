@@ -9,6 +9,7 @@ export enum BasicActionTypes {
   LOGIN = 'LOGIN',
   LOGOUT = 'LOGOUT',
   SIGNUP = 'SIGNUP',
+  GETCOOKIE = 'GETCOOKIE'
 }
 
 export interface IBasicAnyAction {
@@ -19,7 +20,7 @@ export interface IBasicAnyAction {
 export interface ILoginAction {
   type: BasicActionTypes.LOGIN;
   username: string;
-  id: number,
+  userId: number;
 }
 
 export interface ISignupAction {
@@ -32,7 +33,13 @@ export interface ILogoutAction {
   type: BasicActionTypes.LOGOUT;
 }
 
-export type BasicActions = IBasicAnyAction | ILoginAction | ILogoutAction | ISignupAction;
+export interface IGetCookieAction {
+    type: BasicActionTypes.GETCOOKIE;
+    username: string;
+    userId: number;
+}
+
+export type BasicActions = IBasicAnyAction | ILoginAction | ILogoutAction | ISignupAction | IGetCookieAction;
 
 /*<Promise<Return Type>, State Interface, Type of Param, Type of Action> */
 export const basicAction: ActionCreator<ThunkAction<
@@ -63,7 +70,8 @@ export const logoutAction: ActionCreator<ThunkAction<
   return async (dispatch: Dispatch) => {
       try {
           // delete cookie
-          Cookies.remove('kunligi');
+          Cookies.remove('kunligiUser');
+          Cookies.remove('kunligiId');
           // may have to re-route?
           console.log('logged out');
           dispatch({
@@ -81,13 +89,13 @@ export const loginAction: ActionCreator<ThunkAction<
   IBasicState,
   null,
   ILoginAction
->> = (username: string, id: number) => {
+>> = (username: string, userId: number) => {
   return async (dispatch: Dispatch) => {
     try {
       
       dispatch({
         username,
-        id,
+        userId,
         type: BasicActionTypes.LOGIN,
       });
     } catch (err) {
@@ -110,6 +118,27 @@ export const signupAction: ActionCreator<ThunkAction<
             username,
             email,
             type: BasicActionTypes.SIGNUP,
+        });
+    
+    } catch (err) {
+      console.error(err);
+    }
+  };
+};
+
+export const getCookieAction: ActionCreator<ThunkAction<
+  Promise<any>,
+  IBasicState,
+  null,
+  IGetCookieAction
+>> = (username: string, userId: number) => {
+  return async (dispatch: Dispatch) => {
+    console.log('in cookieAction, before fetch');
+    try {
+      dispatch({
+            username,
+            userId,
+            type: BasicActionTypes.GETCOOKIE,
         });
     
     } catch (err) {

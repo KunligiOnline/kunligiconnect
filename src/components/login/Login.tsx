@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link as RouteLink, Redirect, withRouter, useHistory, RouteComponentProps } from 'react-router-dom';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
-
+import Cookies from 'js-cookie';
 import { useDispatch } from 'react-redux';
-import { loginAction } from '../../actions/basicActions';
+import { loginAction, getCookieAction } from '../../actions/basicActions';
 
 /**
  * @function  Verify username and password
@@ -15,13 +15,28 @@ import { loginAction } from '../../actions/basicActions';
 const useStyles = makeStyles(theme => ({
   
     submit: {
-        margin: theme.spacing(3, 0, 2)
+        margin: theme.spacing(3, 0, 2),
+        color: '#333',
+        '&:hover': {
+            backgroundColor: '#6adfe9'
+        }
     },
     root: {
-        
-        '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
-        borderColor: '#3EC1AC'
-        }
+    '& .MuiInputBase-root': {
+        height: '50px'
+    },
+    '& .MuiInputLabel-outlined': {
+        top: '-2px',
+        fontSize: '85%'
+    },
+    '& .MuiInputLabel-outlined.MuiInputLabel-shrink': {
+        top: '0',
+        left: '10px',
+        color: '#777'
+    },
+    '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+        borderColor: '#6adfe9'
+    }
     }
 }));
  // show / reroute to sign-up form
@@ -36,6 +51,17 @@ const LogIn: React.FC<RouteComponentProps> = props => {
   const [invalidPassMsg, setInvalidPassMsg] = useState('');
   const [invalidUser, setInvalidUser] = useState(false);
   const [invalidPass, setInvalidPass] = useState(false);
+
+  // set state based on cookie values
+  // only trigger on initial mount
+  useEffect(() => {
+    const cookieUser = Cookies.get('kunligiUser');
+    const cookieId = Cookies.get('kunligiId');
+    if (cookieUser !== undefined && cookieId !== undefined) {
+        console.log('cookie detected! dispatching...');
+        dispatch(getCookieAction(cookieUser, cookieId));
+    }
+  }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let inputVal = e.target.value;
@@ -120,11 +146,11 @@ const LogIn: React.FC<RouteComponentProps> = props => {
 
 
   return (
-    <div className="signup-form"> 
+    <div className="login-form"> 
         <p>Please log-in to your account</p>
         <div>
         <TextField
-          
+          className={classes.root}
           variant="outlined"
           margin="normal"
           required
@@ -140,7 +166,7 @@ const LogIn: React.FC<RouteComponentProps> = props => {
           error={invalidUser}
         />
         <TextField
-          
+          className={classes.root}
           variant="outlined"
           margin="normal"
           required
@@ -166,7 +192,7 @@ const LogIn: React.FC<RouteComponentProps> = props => {
         >Log in
         </Button><br></br>
         
-        <Grid container justify="flex-end">
+        <Grid container justify="center">
             <Grid item>
                 <RouteLink to={`/signup`} className="nav-link">
                 Don't have an account? Sign Up
