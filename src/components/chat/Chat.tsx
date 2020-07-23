@@ -8,7 +8,7 @@ import Question from './Question';
 const Chat: React.FC = () => {
 
   return (
-    <div>
+    <div className='chat-section'>
       <Question />
       <Messages />
       <MessageInput />

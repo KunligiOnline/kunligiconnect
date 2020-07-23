@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import { createSocketConn } from '../../actions/basicActions';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
+import Navbar from '../navigation/Navbar';
 
 const Home: React.FC = () => {
   const dispatch = useDispatch();
