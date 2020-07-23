@@ -9,7 +9,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { AppBar, Toolbar, Typography,  Button } from '@material-ui/core';
 import cyan from '@material-ui/core/colors/cyan';
 
-const colour = cyan[200];
+const colour = '#026670';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -32,6 +32,7 @@ const Navbar: React.FC<RouteComponentProps> = (props) => {
   const logout = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
     dispatch(logoutAction());
+    props.history.push('/login');
   }
 
   const username = useSelector((state: IAppState) => state.basicState.username);
@@ -43,7 +44,7 @@ const Navbar: React.FC<RouteComponentProps> = (props) => {
               <Typography variant="h4" className={classes.title}>
                 Kunligi
               </Typography>
-              <Button color="inherit" onClick={() => history.push('/login')}>Login</Button>
+              {/* <Button color="inherit" onClick={() => history.push('/login')}>Login</Button> */}
             </Toolbar>
           </AppBar>
       </div>

@@ -42,7 +42,7 @@ export const basicReducer: Reducer<IBasicState, BasicActions> = (
       console.log('in reducer, login! action: ', action);
       return {
         ...state,
-        userId: action.id,
+        userId: action.userId,
         username: action.username,
       };
     }
