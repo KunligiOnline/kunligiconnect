@@ -1,6 +1,7 @@
 import { ActionCreator, Dispatch } from 'redux';
 import { ThunkAction } from 'redux-thunk';
 import { IBasicState } from '../reducers/basicReducer';
+import socketIOClient from 'socket.io-client';
 import Cookies from 'js-cookie';
 
 
@@ -10,6 +11,10 @@ export enum BasicActionTypes {
   LOGOUT = 'LOGOUT',
   SIGNUP = 'SIGNUP',
   GETCOOKIE = 'GETCOOKIE'
+  CREATESOCKET = 'CREATESOCKET',
+  CREATEROOM = 'CREATEROOM',
+  ADDMESSAGE = 'ADDMESSAGE',
+  CHANGEPROMPT = 'CHANGEPROMPT',
 }
 
 export interface IBasicAnyAction {
@@ -39,7 +44,47 @@ export interface IGetCookieAction {
     userId: number;
 }
 
-export type BasicActions = IBasicAnyAction | ILoginAction | ILogoutAction | ISignupAction | IGetCookieAction;
+export interface ICreateSocketAction {
+  type: BasicActionTypes.CREATESOCKET;
+  socket: any;
+}
+
+export interface ICreateRoomAction {
+  type: BasicActionTypes.CREATEROOM;
+  room: string;
+}
+
+export interface IAddMessage {
+  type: BasicActionTypes.ADDMESSAGE;
+  message: Message;
+}
+
+export interface IChangePrompt {
+  type: BasicActionTypes.CHANGEPROMPT;
+  prompt: Prompt;
+}
+
+export interface Prompt {
+  id: number;
+  prompt: string;
+}
+
+export interface Message {
+  username: string;
+  message: string;
+  created_at: string;
+}
+
+export type BasicActions =
+  | IBasicAnyAction
+  | ILoginAction
+  | ILogoutAction
+  | ISignupAction
+  | ICreateSocketAction
+  | ICreateRoomAction
+  | IAddMessage
+  | IChangePrompt
+  | IGetCookieAction;
 
 /*<Promise<Return Type>, State Interface, Type of Param, Type of Action> */
 export const basicAction: ActionCreator<ThunkAction<
@@ -140,9 +185,68 @@ export const getCookieAction: ActionCreator<ThunkAction<
             userId,
             type: BasicActionTypes.GETCOOKIE,
         });
-    
+    } catch (err) {
+        console.error(err);
+      }
+    };
+}
+
+// opens up a socket connection and tells the socket server the type of room it wants to be connected to
+export const createSocketConn: ActionCreator<ThunkAction<
+  Promise<any>,
+  IBasicState,
+  null,
+  ICreateSocketAction
+>> = () => {
+  return async (dispatch: Dispatch, getState: any) => {
+    console.log('creating a socket connection');
+
+    const { chatType, userId } = getState().basicState;
+
+    try {
+      // set up a new socket connection
+      const socket = await socketIOClient('http://localhost:4000', {
+        transports: ['websocket'],
+      });
+      // fire event from the socket that it is now looking for a connection
+      // socket.emit('looking', userId, chatType);
+      socket.emit('looking', userId, chatType);
+
+      // add event listener to wait for the assigned room
+      // add that room to state
+      socket.on('room', (room: string) => {
+        dispatch(createRoom(room));
+      });
+
+      socket.on('new message', (messageData: Message) => {
+        dispatch(addMessage(messageData));
+      });
+
+      socket.on('prompt', (newPrompt: Prompt) => {
+        dispatch(changePrompt(newPrompt));
+      });
+
+      dispatch({
+        socket: socket,
+        type: BasicActionTypes.CREATESOCKET,
+      });
     } catch (err) {
       console.error(err);
     }
   };
 };
+
+export const createRoom = (room: string): ICreateRoomAction => ({
+  type: BasicActionTypes.CREATEROOM,
+  room: room,
+});
+
+export const addMessage = (message: Message): IAddMessage => ({
+  type: BasicActionTypes.ADDMESSAGE,
+  message: message,
+});
+
+export const changePrompt = (prompt: Prompt): IChangePrompt => ({
+  type: BasicActionTypes.CHANGEPROMPT,
+  prompt: prompt,
+});

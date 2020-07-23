@@ -1,18 +1,19 @@
-import React from 'react';
-import Navbar from '../navigation/Navbar';
-import 'bulma/css/bulma.css'
-import Messages from '../chat/Messages';
-import MessageInput from '../chat/MessageInput'
+import React, { useState } from 'react';
+import 'bulma/css/bulma.css';
+import Messages from './Messages';
+import MessageInput from './MessageInput';
+import Question from './Question';
 
 // will include routes to home page and next question and next user
 const Chat: React.FC = () => {
-  return(
+
+  return (
     <div>
-      <p>Question here</p>
-      <Messages/>
-      <MessageInput/>
+      <Question />
+      <Messages />
+      <MessageInput />
     </div>
-  )
-}
+  );
+};
 
 export default Chat;

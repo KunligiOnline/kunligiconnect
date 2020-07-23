@@ -13,10 +13,6 @@ const colour = cyan[200];
 const Navbar: React.FC<RouteComponentProps> = (props) => {
 
   const dispatch = useDispatch();
-
-  // function login(location: H.LocationDescriptor): H.LocationDescriptor {
-  //   return '/login';
-  // }
   
   const logout = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
@@ -33,7 +29,6 @@ const Navbar: React.FC<RouteComponentProps> = (props) => {
                   <Typography variant="h6">
                     Kunligi
                   </Typography>
-                  {/* <Button color="inherit" style={{float:'right'}}>Login</Button> */}
                 </Grid>
               </Toolbar>
             </AppBar>
@@ -49,8 +44,7 @@ const Navbar: React.FC<RouteComponentProps> = (props) => {
             <Typography variant="h6">
               Kunligi
             </Typography>
-            
-            {/* <Button color="inherit" style={{float:'right'}}><NavLink id="link" to="/login" >Logout</NavLink></Button> */}
+
             <Button color="inherit" style={{float:'right'}} onClick={e => logout(e)}>Logout</Button>
           </Grid>
         </Toolbar>
