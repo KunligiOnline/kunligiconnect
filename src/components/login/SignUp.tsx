@@ -18,7 +18,8 @@ const useStyles = makeStyles(theme => ({
     margin: theme.spacing(3, 0, 2),
     color: '#333',
     '&:hover': {
-      backgroundColor: '#6adfe9'
+      backgroundColor: '#026670',
+      color: '#eee'
     }
   },
   root: {
@@ -35,7 +36,7 @@ const useStyles = makeStyles(theme => ({
       color: '#777'
     },
     '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
-      borderColor: '#6adfe9'
+      borderColor: '#026670'
     }
   }
 }));
@@ -185,7 +186,8 @@ const SignUp: React.FC = props => {
           setInvalidUsername(true);
           setInvalidUsernameMsg('Username Taken');
         } else {
-          dispatch(signupAction(username, email, password));
+          const userId = data.newUser.id;
+          dispatch(signupAction(username, email, password, userId));
         }
       })
       .catch(err => console.log('err in signup submit', err));
