@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import 'bulma/css/bulma.css';
+// import 'bulma/css/bulma.css';
+import '../../styles/bulmaStyles.scss';
 import Messages from './Messages';
 import MessageInput from './MessageInput';
 import Question from './Question';
