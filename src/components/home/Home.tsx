@@ -9,11 +9,7 @@ import { useDispatch } from 'react-redux';
 import { createSocketConn } from '../../actions/basicActions';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-import cyan from '@material-ui/core/colors/cyan';
 
-const color1 = cyan[400];
-const color2 = cyan[900];
-const color3 = cyan[100];
 
 const Home: React.FC<RouteComponentProps> = (props) => {
   const dispatch = useDispatch();

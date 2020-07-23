@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link as RouteLink, Redirect, withRouter, useHistory, RouteComponentProps } from 'react-router-dom';
+import { Link as RouteLink } from 'react-router-dom';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
@@ -42,7 +42,7 @@ const useStyles = makeStyles(theme => ({
 }));
  // show / reroute to sign-up form
  // show username/password text fields, 
-const LogIn: React.FC<RouteComponentProps> = props => {
+const LogIn: React.FC = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [username, setUsername] = useState('');
@@ -196,7 +196,7 @@ const LogIn: React.FC<RouteComponentProps> = props => {
         <Grid container justify="center">
             <Grid item>
                 <RouteLink to={`/signup`} className="nav-link">
-                Don't have an account? Sign Up
+                  Don&apos;t have an account? Sign Up
                 </RouteLink>
             </Grid>
         </Grid>
@@ -205,4 +205,4 @@ const LogIn: React.FC<RouteComponentProps> = props => {
   );
 }
 
-export default withRouter(LogIn);
+export default LogIn;
