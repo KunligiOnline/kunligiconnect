@@ -82,6 +82,15 @@ export const basicReducer: Reducer<IBasicState, BasicActions> = (
         userId: action.userId,
       };
     }
+    case BasicActionTypes.CLEARCHAT: {
+      const messages: Message[] = [];
+      const room: null = null;
+      return {
+        ...state,
+        messages,
+        room,
+      };
+    }
 
     default:
       return state;

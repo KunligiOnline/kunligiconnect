@@ -15,6 +15,8 @@ export enum BasicActionTypes {
   ADDMESSAGE = 'ADDMESSAGE',
   CHANGEPROMPT = 'CHANGEPROMPT',
   CHANGECHATTYPE = `CHANGECHATTYPE`,
+  GETNEWPARTNER = 'GETNEWPARTNER',
+  CLEARCHAT = 'CLEARCHAT',
 }
 
 export interface IBasicAnyAction {
@@ -39,9 +41,9 @@ export interface ILogoutAction {
 }
 
 export interface IGetCookieAction {
-    type: BasicActionTypes.GETCOOKIE;
-    username: string;
-    userId: number;
+  type: BasicActionTypes.GETCOOKIE;
+  username: string;
+  userId: number;
 }
 
 export interface ICreateSocketAction {
@@ -69,6 +71,15 @@ export interface IChangeChatType {
   chatType: string;
 }
 
+export interface IGetNewPartnerAction {
+  type: BasicActionTypes.GETNEWPARTNER;
+  property: any;
+}
+
+export interface IClearChatAction {
+  type: BasicActionTypes.CLEARCHAT;
+}
+
 export interface Prompt {
   id: number;
   prompt: string;
@@ -90,7 +101,9 @@ export type BasicActions =
   | IAddMessage
   | IChangePrompt
   | IChangeChatType
-  | IGetCookieAction;
+  | IGetCookieAction
+  | IGetNewPartnerAction
+  | IClearChatAction;
 
 /*<Promise<Return Type>, State Interface, Type of Param, Type of Action> */
 export const basicAction: ActionCreator<ThunkAction<
@@ -119,17 +132,17 @@ export const logoutAction: ActionCreator<ThunkAction<
   ILogoutAction
 >> = () => {
   return async (dispatch: Dispatch) => {
-      try {
-          // delete cookie
-          Cookies.remove('kunligiUser');
-          Cookies.remove('kunligiId');
-          // may have to re-route?
-          console.log('logged out');
-          dispatch({
-          property: null,
-          type: BasicActionTypes.LOGOUT
-          })
-      } catch (err) {
+    try {
+      // delete cookie
+      Cookies.remove('kunligiUser');
+      Cookies.remove('kunligiId');
+      // may have to re-route?
+      console.log('logged out');
+      dispatch({
+        property: null,
+        type: BasicActionTypes.LOGOUT,
+      });
+    } catch (err) {
       console.error(err);
     }
   };
@@ -184,15 +197,15 @@ export const getCookieAction: ActionCreator<ThunkAction<
     console.log('in cookieAction, before fetch');
     try {
       dispatch({
-            username,
-            userId,
-            type: BasicActionTypes.GETCOOKIE,
-        });
+        username,
+        userId,
+        type: BasicActionTypes.GETCOOKIE,
+      });
     } catch (err) {
-        console.error(err);
-      }
-    };
-}
+      console.error(err);
+    }
+  };
+};
 
 // opens up a socket connection and tells the socket server the type of room it wants to be connected to
 export const createSocketConn: ActionCreator<ThunkAction<
@@ -213,7 +226,7 @@ export const createSocketConn: ActionCreator<ThunkAction<
       });
       // fire event from the socket that it is now looking for a connection
       // socket.emit('looking', userId, chatType);
-      console.log('user id of ',userId,'is looking for ',chatType)
+      console.log('user id of ', userId, 'is looking for ', chatType);
       socket.emit('looking', userId, chatType);
 
       // add event listener to wait for the assigned room
@@ -228,6 +241,13 @@ export const createSocketConn: ActionCreator<ThunkAction<
 
       socket.on('prompt', (newPrompt: Prompt) => {
         dispatch(changePrompt(newPrompt));
+      });
+
+      socket.on('room closed', (oldPartnerUserId: number) => {
+        // remove room and chat history from state
+        dispatch(clearChat());
+        // send message to websocket server that user is looking for a new chat partner
+        socket.emit('looking', userId, chatType, oldPartnerUserId);
       });
 
       // adds socket to state
@@ -265,4 +285,31 @@ export const changePrompt = (prompt: Prompt): IChangePrompt => ({
 export const changeChatType = (chatType: string): IChangeChatType => ({
   type: BasicActionTypes.CHANGECHATTYPE,
   chatType: chatType,
+});
+
+export const getNewPartner: ActionCreator<ThunkAction<
+  // Promise<any>,
+  any,
+  IBasicState,
+  null,
+  IGetNewPartnerAction
+>> = (chatType: string) => {
+  return async (dispatch: Dispatch, getState: any) => {
+    console.log('resetting the socket connection');
+    const { chatType, userId, socket, room } = getState().basicState;
+    try {
+      // remove room and chat history from state
+      dispatch(clearChat());
+      // send message to websocket server that client wants to be disconnected from room
+      socket.emit('leave room', room, userId);
+      // send message to websocket server that user is looking for a new chat partner
+      socket.emit('looking', userId, chatType);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+};
+
+export const clearChat = (): IClearChatAction => ({
+  type: BasicActionTypes.CLEARCHAT,
 });

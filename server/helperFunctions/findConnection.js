@@ -4,8 +4,15 @@ const findConnection = (connectionReq, chatQueue) => {
   // if there's a match return the match
   for (let i = 0; i <= chatQueue.length - 1; i++) {
     const conn = chatQueue[i];
-
-    if (conn.chatType === connectionReq.chatType) {
+    if (
+      conn.chatType === connectionReq.chatType &&
+      ((conn.userId !== connectionReq.oldPartnerUserId &&
+        connectionReq.oldPartnerUserId !== undefined) ||
+        (connectionReq.userId !== conn.oldPartnerUserId &&
+          conn.oldPartnerUserId !== undefined) ||
+        (!conn.oldPartnerUserId && !connectionReq.oldPartnerUserId))
+      // (!conn.oldPartnerUserId && !connectionReq.oldPartnerUserId))
+    ) {
       chatQueue.splice(i, 1);
       return conn;
     }
